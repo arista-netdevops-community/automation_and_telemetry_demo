@@ -1,0 +1,10 @@
+address: "172.28.135.38:6030"
+username: arista
+password: arista
+insecure: true
+log-file: /tmp/gnmic.log
+outputs:
+  output1:
+    type: file
+    filename: ./gnmi_output.txt
+

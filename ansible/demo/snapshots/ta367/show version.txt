@@ -1,0 +1,14 @@
+Arista DCS-7280SR2K-48C6-M-F
+Hardware version: 20.01
+Serial number: JAS18070010
+Hardware MAC address: 7483.ef73.592b
+System MAC address: 7483.ef73.592b
+
+Software image version: 4.25.1F-20348152.oslorel (engineering build)
+Architecture: i686
+Internal build version: 4.25.1F-20348152.oslorel
+Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
+
+Uptime: 1 weeks, 0 days, 1 hours and 25 minutes
+Total memory: 32813280 kB
+Free memory: 29687480 kB

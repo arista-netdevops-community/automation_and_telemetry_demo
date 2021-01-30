@@ -1,0 +1,11 @@
+Last table change time   : 2:21:51 ago
+Number of table inserts  : 6
+Number of table deletes  : 3
+Number of table drops    : 0
+Number of table age-outs : 0
+
+Port         Neighbor Device ID                          Neighbor Port ID   TTL 
+---------- ------------------------------------------- -------------------- --- 
+Et49/1       cmp308.sjc.aristanetworks.com               Ethernet3/2/1      120 
+Et50/1       ta368.sjc.aristanetworks.com                Ethernet52/1       120 
+Ma1          r161-rack3-tor42.sjc.aristanetworks.com     Ethernet15         120

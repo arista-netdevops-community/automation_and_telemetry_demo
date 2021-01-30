@@ -1,0 +1,19 @@
+---
+all:
+  children:
+    POC:
+      hosts:
+        ta366:
+          ansible_host: 172.28.135.38
+        up522:
+          ansible_host: 172.28.132.154
+        ta368: 
+          ansible_host: 172.28.128.69
+        smv462: 
+          ansible_host: 172.28.134.246
+        ta373: 
+          ansible_host: 172.28.134.80
+        cmp308: 
+          ansible_host: 172.28.135.145
+        ta367: 
+          ansible_host: 172.28.135.39
