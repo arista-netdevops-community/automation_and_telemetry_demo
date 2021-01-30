@@ -16,7 +16,6 @@ $ echo $HOME
 $ python3 -V
 Python 3.6.9
 ```
-```
 change dns to 8.8.8.8
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
