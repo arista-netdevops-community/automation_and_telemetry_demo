@@ -1,0 +1,11 @@
+ethernet_interfaces:
+  Ethernet49/1:
+    peer: cmp308
+    peer_interface: Ethernet3/2/1
+    type: routed
+    ip_address: 11.0.23.3/24
+  Ethernet50/1:
+    peer: ta368
+    peer_interface: Ethernet52/1
+    type: routed
+    ip_address: 11.0.35.3/24

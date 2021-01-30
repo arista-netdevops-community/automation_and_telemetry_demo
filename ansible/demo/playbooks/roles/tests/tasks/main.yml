@@ -1,0 +1,58 @@
+---
+
+- name: Gather EOS platform and version details
+  eos_command:
+    commands: "show version | json"
+  register: eos_version
+  tags:
+    - hardware
+
+- name: Load Hardware validation tasks
+  include_tasks: "hardware.yml"
+  when:
+    - eos_version.stdout_lines.0.modelName != 'vEOS'
+    - eos_version.stdout_lines.0.modelName != 'cEOSLab'
+  tags:
+    - hardware
+
+- name: Load ntp tasks
+  include_tasks: "ntp.yml"
+  tags:
+    - ntp
+
+- name: Validate reload cause
+  include_tasks: "reload_cause.yml"
+  tags: 
+    - reload_cause
+
+- name: Load interface state tasks
+  include_tasks: "interface_state.yml"
+  tags:
+    - interfaces_state
+
+- name: Load LLDP Topology tasks when dns domain is defined
+  include_tasks: "lldp_topology_fqdn.yml"
+  tags:
+    - lldp
+  when: dns_domain is defined
+
+- name: Load LLDP Topology tasks when dns domain is not defined
+  include_tasks: "lldp_topology_no_fqdn.yml"
+  tags:
+    - lldp
+  when: dns_domain is not defined
+
+- name: Load IP Reachability tasks
+  include_tasks: "ip_reachability.yml"
+  tags:
+    - ip_reachability
+
+- name: Load arBGP tasks
+  include_tasks: "arbgp.yml"
+  tags:
+    - arbgp
+
+- name: Create reports
+  include_tasks: "reports.yml"
+  tags:
+    - always

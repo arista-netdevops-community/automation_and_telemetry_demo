@@ -1,0 +1,9 @@
+ethernet_interfaces:
+  Ethernet2:
+    peer: up522
+    peer_interface: Ethernet3/1
+  Ethernet50/1:
+    peer: cmp308
+    peer_interface: Ethernet3/5/1
+    type: routed
+    ip_address: 11.0.26.6/24

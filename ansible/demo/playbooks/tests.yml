@@ -1,0 +1,10 @@
+---
+- name: run tests
+  hosts: POC
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    - name: run tests
+      import_role:
+        name: tests

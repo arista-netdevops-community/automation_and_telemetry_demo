@@ -1,0 +1,16 @@
+ethernet_interfaces:
+  Ethernet49/1:
+    peer: smv462
+    peer_interface: Ethernet2/1
+    type: routed
+    ip_address: 11.0.14.4/24
+  Ethernet50/1:
+    peer: cmp308
+    peer_interface: Ethernet3/3/1
+    type: routed
+    ip_address: 11.0.24.4/24
+  Ethernet51/1:
+    peer: ta368
+    peer_interface: Ethernet49/1
+    type: routed
+    ip_address: 11.0.45.4/24
