@@ -1,0 +1,6 @@
+*.yang
+/public/*
+/telegraf/*
+/yang_modules/oc_bgp.py
+/ansible/ansible-avd/
+
