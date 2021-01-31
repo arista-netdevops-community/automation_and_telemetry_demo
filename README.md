@@ -31,7 +31,7 @@ Then:
 
 ## EOS devices
 
-Then configure all eos devices for gnmi and snmp and eapi:
+### Then configure all eos devices for gnmi and snmp and eapi:
 ```
 snmp-server community public ro
 username arista secret 0 arista
@@ -45,7 +45,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-Then configure one single eos device for isis lsdb streaming:
+### Then configure one single eos device for isis lsdb streaming:
 ```
 management api models
    provider smash
