@@ -1,5 +1,5 @@
 devices:
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
   {{ node }}:
 {%     for command in commands_list %}
     "{{ command }}":

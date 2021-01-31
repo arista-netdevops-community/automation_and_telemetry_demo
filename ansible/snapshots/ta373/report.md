@@ -85,7 +85,7 @@ Management1     172.28.134.80/20    up            up             1500
 ## show lldp neighbors
 
 ```
-Last table change time   : 2 days, 7:21:35 ago
+Last table change time   : 2 days, 17:26:51 ago
 Number of table inserts  : 8
 Number of table deletes  : 5
 Number of table drops    : 0
@@ -445,7 +445,7 @@ Architecture: i686
 Internal build version: 4.25.1F-20001546.4251F
 Internal build ID: 31358597-3f9d-49cf-b0a5-c16d16d21617
 
-Uptime: 1 weeks, 1 days, 7 hours and 50 minutes
+Uptime: 1 weeks, 1 days, 17 hours and 55 minutes
 Total memory: 32822600 kB
-Free memory: 29810884 kB
+Free memory: 29809764 kB
 ```

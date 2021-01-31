@@ -89,7 +89,7 @@ Vlan300          30.0.4.1/24          up         up              1500
 ## show lldp neighbors
 
 ```
-Last table change time   : 1 day, 6:01:50 ago
+Last table change time   : 1 day, 16:07:06 ago
 Number of table inserts  : 14
 Number of table deletes  : 10
 Number of table drops    : 0
@@ -490,7 +490,7 @@ Architecture: i686
 Internal build version: 4.25.1F-20348152.oslorel
 Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
 
-Uptime: 1 weeks, 1 days, 5 hours and 5 minutes
+Uptime: 1 weeks, 1 days, 15 hours and 10 minutes
 Total memory: 32813280 kB
-Free memory: 29678716 kB
+Free memory: 29684968 kB
 ```

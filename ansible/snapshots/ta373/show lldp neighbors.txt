@@ -1,4 +1,4 @@
-Last table change time   : 2 days, 7:21:35 ago
+Last table change time   : 2 days, 17:26:51 ago
 Number of table inserts  : 8
 Number of table deletes  : 5
 Number of table drops    : 0

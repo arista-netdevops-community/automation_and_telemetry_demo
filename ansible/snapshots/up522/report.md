@@ -58,7 +58,7 @@ Management1     172.28.132.154/20     up         up             1500
 ## show lldp neighbors
 
 ```
-Last table change time   : 1 day, 6:01:32 ago
+Last table change time   : 1 day, 16:06:49 ago
 Number of table inserts  : 7
 Number of table deletes  : 4
 Number of table drops    : 0
@@ -226,7 +226,7 @@ Architecture: i686
 Internal build version: 4.25.1F-20348152.oslorel
 Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
 
-Uptime: 1 weeks, 2 days, 23 hours and 9 minutes
+Uptime: 1 weeks, 3 days, 9 hours and 14 minutes
 Total memory: 8099060 kB
-Free memory: 6196804 kB
+Free memory: 6199676 kB
 ```

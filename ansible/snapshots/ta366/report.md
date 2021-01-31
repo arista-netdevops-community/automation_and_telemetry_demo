@@ -100,7 +100,7 @@ Vlan300        30.0.3.1/24         down      lowerlayerdown      1500
 ## show lldp neighbors
 
 ```
-Last table change time   : 1 day, 6:01:33 ago
+Last table change time   : 1 day, 16:06:50 ago
 Number of table inserts  : 6
 Number of table deletes  : 3
 Number of table drops    : 0
@@ -587,7 +587,7 @@ Architecture: i686
 Internal build version: 4.25.1F-20348152.oslorel
 Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
 
-Uptime: 1 weeks, 1 days, 5 hours and 4 minutes
+Uptime: 1 weeks, 1 days, 15 hours and 10 minutes
 Total memory: 32813280 kB
-Free memory: 29652380 kB
+Free memory: 29653036 kB
 ```
