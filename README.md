@@ -22,6 +22,9 @@ sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev
 pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
 ```
 ```
+pip3 list
+```
+```
 $ python3 -V
 Python 3.6.9
 ```
