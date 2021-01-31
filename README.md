@@ -28,6 +28,18 @@ pip3 list
 $ python3 -V
 Python 3.6.9
 ```
+
+If `ansible --version` doesnt work, try:  
+```
+echo $PATH
+/home/arista/.local/bin/ansible --version
+```
+```
+export PATH="$PATH:/home/arista/.local/bin"
+echo $PATH
+ansible --version
+```
+
 Then:
 - install docker (https://docs.docker.com/engine/install/ubuntu/)
 - install docker-compose (https://docs.docker.com/compose/install/)
