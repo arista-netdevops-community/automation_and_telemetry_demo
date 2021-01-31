@@ -9,6 +9,6 @@ Architecture: i686
 Internal build version: 4.25.1F-20348152.oslorel
 Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
 
-Uptime: 1 weeks, 0 days, 1 hours and 25 minutes
+Uptime: 1 weeks, 1 days, 5 hours and 5 minutes
 Total memory: 32813280 kB
-Free memory: 29687480 kB
+Free memory: 29678716 kB

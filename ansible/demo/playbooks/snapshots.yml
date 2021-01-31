@@ -1,11 +1,10 @@
 ---
-- name: Collect commands
+- name: take snapshots
   hosts: POC
   connection: local
   gather_facts: false
-  collections:
-    - arista.avd
+  
   tasks:
-    - name: Collect show commands and generate reports
+    - name: take snapshots
       import_role:
-        name: arista.avd.eos_snapshot
+        name: snapshots
