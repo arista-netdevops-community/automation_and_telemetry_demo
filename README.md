@@ -29,9 +29,16 @@ Then:
 - install docker-compose (https://docs.docker.com/compose/install/)
 - install gnmic (https://gnmic.kmrd.dev./#installation)
 
-## EOS devices
+## clone this repository 
 
-### Then configure all eos devices for gnmi and snmp and eapi:
+```
+git clone https://github.com/ksator/automation_and_telemetry_workshop.git
+cd automation_and_telemetry_workshop
+```
+
+## configure EOS devices
+
+### Configure all eos devices for gnmi and snmp and eapi:
 ```
 snmp-server community public ro
 username arista secret 0 arista
@@ -45,7 +52,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-### Then configure one single eos device for isis lsdb streaming:
+### Configure one single eos device for isis lsdb streaming:
 ```
 management api models
    provider smash
@@ -100,16 +107,17 @@ more reports/POC-state.md
 ```
 cd ..
 ```
+
 ## pyang
 ```
 git clone https://github.com/openconfig/public.git
-mkdir yang_modules
 cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
 ```
 ```
 cd yang_modules/
+ls
 ```
 validate yang modules
 ```
