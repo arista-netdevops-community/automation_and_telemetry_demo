@@ -177,6 +177,10 @@ cd ..
 
 ## gNMI
 
+```
+cd gnmi/ 
+```
+
 gnmi capabilities
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
@@ -229,7 +233,7 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 
 sub to isis lsdb
 ```
-cd gnmi/ 
+
 more gnmic_conf.yml
 ```
 ```
