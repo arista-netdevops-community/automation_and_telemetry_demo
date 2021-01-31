@@ -169,7 +169,7 @@ ls oc_bgp.py
 ```
 more pyangbind_demo.py
 python3 pyangbind_demo.py
-more ../test.json
+more ../gnmi/test.json 
 ```
 ```
 cd ..

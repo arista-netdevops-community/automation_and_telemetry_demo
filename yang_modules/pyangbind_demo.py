@@ -21,7 +21,7 @@ oc.bgp.neighbors.neighbor["10.10.10.157"].config.enabled=True
 
 #print(pybindJSON.dumps(oc.bgp, mode="ietf"))
 
-f=open("../test.json", "w")
+f=open("../gnmi/test.json", "w")
 f.write(pybindJSON.dumps(oc.bgp, mode="ietf"))
 f.close
 
