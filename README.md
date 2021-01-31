@@ -9,10 +9,6 @@ Release:        18.04
 Codename:       bionic
 ```
 ```
-$ echo $HOME
-/home/arista
-```
-```
 $ python3 -V
 Python 3.6.9
 ```
@@ -26,7 +22,7 @@ Run these commands
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
-pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.6 influxdb
+pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
 ```
 Then:
 - install docker (https://docs.docker.com/engine/install/ubuntu/)
@@ -71,39 +67,49 @@ snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 
 ## netmiko
 ```
-cd $HOME/netmiko
+cd netmiko
 python3 test.py
 more "show version.txt"
+cd ..
 ```
 
 ## eapi
 ```
-cd $HOME/eapi
+cd eapi
 python3 test1.py
 python3 test2.py
+cd ..
 ```
 
 ## ansible
 ```
-cd $HOME/ansible
-git clone https://github.com/aristanetworks/ansible-avd.git
-cd $HOME/ansible/demo
-ansible-playbook playbooks/print_version_and_models.yml
-mkdir snapshots
-ansible-playbook playbooks/snapshots.yml
-tree $HOME/ansible/demo/snapshots
+cd ansible
 ```
-
+```
+ansible-playbook playbooks/print_version_and_models.yml
+```
+```
+ansible-playbook playbooks/snapshots.yml
+tree snapshots
+```
+```
+ansible-playbook playbooks/tests.yml
+ls reports
+more reports/POC-state.md 
+```
+```
+cd ..
+```
 ## pyang
 ```
 git clone https://github.com/openconfig/public.git
-mkdir $HOME/yang_modules
+mkdir yang_modules
 cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
 ```
 ```
-cd $HOME/yang_modules/
+cd yang_modules/
 ```
 validate yang modules
 ```
@@ -120,17 +126,24 @@ pyang -f tree openconfig-interfaces.yang
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
 pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
-
+```
+cd ..
+```
 ## pyangbind
 ```
-cd $HOME/yang_modules/
+cd yang_modules/
+```
+```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
-ls $HOME/yang_modules/oc_bgp.py
+ls oc_bgp.py
 ```
 ```
-more $HOME/yang_modules/pyangbind_demo.py
-python3 $HOME/yang_modules/pyangbind_demo.py
-more $HOME/test.json
+more pyangbind_demo.py
+python3 pyangbind_demo.py
+more ../test.json
+```
+```
+cd ..
 ```
 
 ## gNMI
@@ -155,9 +168,18 @@ sh run int et3
 pyangbind + gnmi
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
+```
+```
 sh run sec bgp
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --replace-path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp' --replace-file $HOME/test.json
+```
+```
+more test.json
+```
+```
+gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --replace-path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp' --replace-file test.json
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
+```
+```
 sh run sec bgp
 ```
 
@@ -178,43 +200,45 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 
 sub to isis lsdb
 ```
-cd $HOME/gnmi/ 
-more $HOME/gnmi/gnmic_conf.yml
+cd gnmi/ 
+more gnmic_conf.yml
 ```
 ```
 gnmic --config $HOME/gnmi/gnmic_conf.yml sub --path "eos_native:/Smash/routing/isis/lsdb/"
 ```
 ```
-more $HOME/gnmi/gnmi_output.txt
+more gnmi_output.txt
 ```
 OR
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Smash/routing/isis/lsdb/2/default/lsp" > $HOME/gnmi/redirect_output.txt
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Smash/routing/isis/lsdb/2/default/lsp" > redirect_output.txt
 ```
 ```
-more $HOME/gnmi/redirect_output.txt
+more redirect_output.txt
 ```
-
+```
+cd ..
+```
 ## telegraf
 
 use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time
 more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
 ```
-cd $HOME
 git clone https://github.com/rski/telegraf
-cd $HOME/telegraf
+cd telegraf
 make docker-image
 docker images
+cd ..
 ```
 
 ## TIG
 
 start TIG
 ```
-cd $HOME/TIG/
-more $HOME/TIG/docker-compose.yml
-ls $HOME/TIG/dashboards
-ls more $HOME/TIG/telegraf.d/
+cd TIG
+more docker-compose.yml
+ls dashboards
+ls telegraf.d/
 docker-compose up -d
 docker-compose ps
 docker ps
