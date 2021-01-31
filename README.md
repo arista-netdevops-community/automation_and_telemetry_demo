@@ -43,7 +43,12 @@ ansible --version
 Then:
 - install docker (https://docs.docker.com/engine/install/ubuntu/)
 - install docker-compose (https://docs.docker.com/compose/install/)
-- install gnmic (https://gnmic.kmrd.dev./#installation)
+- install gnmic (https://gnmic.kmrd.dev./#installation) 
+   - if it fails: 
+   ```
+   wget https://github.com/karimra/gnmic/raw/master/install.sh
+   sudo bash install.sh 
+   ```
 
 ## clone this repository 
 
