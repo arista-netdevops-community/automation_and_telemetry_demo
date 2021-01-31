@@ -204,7 +204,7 @@ cd gnmi/
 more gnmic_conf.yml
 ```
 ```
-gnmic --config $HOME/gnmi/gnmic_conf.yml sub --path "eos_native:/Smash/routing/isis/lsdb/"
+gnmic --config gnmic_conf.yml sub --path "eos_native:/Smash/routing/isis/lsdb/"
 ```
 ```
 more gnmi_output.txt
