@@ -2,7 +2,7 @@
 test_id,node,test_category,test_description,test,result,failure_reason
 {% set test_id = namespace(value=0) %}
 {# Hardware results - power supplies status #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].power_supplies_results is defined and hostvars[node].power_supplies_results.results is defined %}
 {%         for result in hostvars[node].power_supplies_results.results %}
 {%             set test_id.value = test_id.value + 1 %}
@@ -12,7 +12,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Hardware results - fan status (power supplies) #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].fan_power_supplies_results is defined and hostvars[node].fan_power_supplies_results.results is defined %}
 {%         for result in hostvars[node].fan_power_supplies_results.results %}
 {%             set test_id.value = test_id.value + 1 %}
@@ -22,7 +22,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Hardware results - fan status (fan tray) #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].fan_tray_status_results is defined and hostvars[node].fan_tray_status_results.results is defined %}
 {%         for result in hostvars[node].fan_tray_status_results.results %}
 {%             set test_id.value = test_id.value + 1 %}
@@ -32,7 +32,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Hardware results - temperature #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].environment_temperature_results is defined %}
 {%         set test_id.value = test_id.value + 1 %}
 {{ test_id.value }},{{ node }},Hardware,temperature,system temperature,{% if hostvars[node].environment_temperature_results.failed == false %}PASS{% else %}FAIL,{{ hostvars[node].environment_temperature_results.msg }}{% endif %}
@@ -40,7 +40,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Hardware results - transceivers manufacturers #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].transceiver_inventory_results is defined and hostvars[node].transceiver_inventory_results.results is defined %}
 {%         for result in hostvars[node].transceiver_inventory_results.results %}
 {%             set test_id.value = test_id.value + 1 %}
@@ -50,7 +50,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# NTP Status Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].ntp_status_results is defined and hostvars[node].ntp_status_results.skipped is not defined %}
 {%         set test_id.value = test_id.value + 1 %}
 {{ test_id.value }},{{ node }},NTP,Synchronised with NTP server,NTP,{% if hostvars[node].ntp_status_results.failed == false %}PASS{% else %}FAIL,{{ hostvars[node].ntp_status_results.msg }}{% endif %}
@@ -58,7 +58,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Ethernet Interface State Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].ethernet_interface_state_results is defined and hostvars[node].ethernet_interface_state_results.results is defined %}
 {%         for result in hostvars[node].ethernet_interface_state_results.results %}
 {%             set test_id.value = test_id.value + 1 %}
@@ -68,7 +68,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# LLDP Topology Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].lldp_topology_results is defined and hostvars[node].lldp_topology_results.results is defined %}
 {%         for result in hostvars[node].lldp_topology_results.results %}
 {%             if result.skipped is not defined %}
@@ -80,7 +80,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# IP Reachability test - point-to-point links Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].ip_reachability_results is defined and hostvars[node].ip_reachability_results.results is defined %}
 {%         for result in hostvars[node].ip_reachability_results.results %}
 {%             if result.skipped is not defined %}
@@ -92,7 +92,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# ArBGP State Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].arbgp_state_results is defined and hostvars[node].arbgp_state_results.skipped is not defined %}
 {%         set test_id.value = test_id.value + 1 %}
 {{ test_id.value }},{{ node }},BGP,ArBGP is configured and operating,ArBGP,{% if hostvars[node].arbgp_state_results.failed == false %}PASS{% else %}FAIL,{{ hostvars[node].arbgp_state_results.msg }}{% endif %}
@@ -100,7 +100,7 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%    endif %}
 {% endfor %}
 {# Reload Cause Results #}
-{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{% for node in groups[fabric_name] %}
 {%     if hostvars[node].reload_cause_results is defined and hostvars[node].reload_cause_results.skipped is not defined %}
 {%         set test_id.value = test_id.value + 1 %}
 {{ test_id.value }},{{ node }},Reload Cause,Reload Cause: Reload requested by the user,Reload Cause,{% if hostvars[node].reload_cause_results.failed == false %}PASS{% else %}FAIL,Reload Cause: {{ hostvars[node].reload_cause_results.msg }}{% endif %}

@@ -2,6 +2,16 @@
 
 # Validation reports
 
+- name: Create output directory
+  file:
+    path: "{{ eos_validate_state_dir }}"
+    state: directory
+  delegate_to: localhost
+  run_once: true
+  tags:
+    - always
+    - report
+
 - name: Create Validation report - CSV
   template:
     src: validate_state_report-csv.j2
