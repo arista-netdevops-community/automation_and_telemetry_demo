@@ -16,6 +16,7 @@ change dns to 8.8.8.8
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
+ping www.google.com
 ```
 Run these commands
 ```
