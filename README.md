@@ -111,7 +111,7 @@ snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 
 ## [Netmiko](netmiko)
 
-Netmiko is a multi-vendor python library to simplify Paramiko SSH connections to network devices
+Netmiko is a python library to simplify SSH connections to network devices
 
 From the root of this repository: 
 ```
@@ -138,15 +138,16 @@ python3 test2.py
 From the root of the repository: 
 ```
 cd ansible
-```
-```
 ls
 ```
+
+### Basic demo 
 
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
-### Test the devices (ntp, lldp, temperature, ...)
+
+### Test the devices (ntp, lldp, temperature, ...) and generate a report
 
 To run all the tests: 
 ```
@@ -261,7 +262,7 @@ more ../gnmi/test.json
 
 ## [gNMI](gnmi)
 
-we will use gnmic (open source gnmi client)  
+We will use gNMIc (an open source gNMI client)  
 ```
 gnmic version
 ```
@@ -271,14 +272,14 @@ From the root of this repository:
 cd gnmi/ 
 ```
 
-Lets use the following RPC: capabilites, get, subscribe, set.  
+Lets use the following RPC: capabilities, get, subscribe, set.  
 
-### gnmi capabilities
+### gNMI capabilities
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
 ```
 
-### gnmi get 
+### gNMI get 
 
 Retrieve a snapshot for a path  
 
@@ -287,7 +288,7 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
 
-### gnmi set 
+### gNMI set 
 
 The Set RPC is used to modify states.    
 
@@ -308,7 +309,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update  "/inte
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
 sh run int et3
 ```
-### pyangbind + gnmi
+### PyangBind + gNMI
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
@@ -326,7 +327,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 sh run sec bgp
 ```
 
-### gnmi sub (to OC path)
+### gNMI sub (to OpenConfig paths)
 
 Request to the target to stream values for an OpenConfig path  
 
@@ -334,7 +335,7 @@ Request to the target to stream values for an OpenConfig path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
-### gnmi sub (to eos native path)
+### gNMI sub (to EOS native paths)
 
 Request to the target to stream values for an EOS native path  
 
@@ -342,9 +343,9 @@ Request to the target to stream values for an EOS native path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
 
-### sub to isis lsdb
-```
+### gNMI sub to ISIS LSDB
 
+```
 more gnmic_conf.yml
 ```
 ```
@@ -353,7 +354,7 @@ gnmic --config gnmic_conf.yml sub --path "eos_native:/Smash/routing/isis/lsdb/"
 ```
 more gnmi_output.txt
 ```
-OR
+Or
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Smash/routing/isis/lsdb/2/default/lsp" > redirect_output.txt
 ```
@@ -397,8 +398,8 @@ cd TIG
 ```
 ```
 more docker-compose.yml
-ls dashboards
 ls telegraf.d/
+ls dashboards
 ```
 
 ### Start the TIG stack 
