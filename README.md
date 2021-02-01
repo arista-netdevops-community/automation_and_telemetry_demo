@@ -71,9 +71,9 @@ git clone https://github.com/ksator/automation_and_telemetry_workshop.git
 cd automation_and_telemetry_workshop
 ```
 
-## configure EOS devices
+## Configure EOS devices
 
-### Configure all eos devices for gNIO and SNMP and eAPI
+### Configure all EOS devices for gNMI and SNMP and eAPI
 ```
 snmp-server community public ro
 username arista secret 0 arista
@@ -87,7 +87,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-### Configure one single eos device for ISIS LSDB streaming
+### Configure one single EOS device for ISIS LSDB streaming
 ```
 management api models
    provider smash
@@ -122,7 +122,7 @@ more "show version.txt"
 cd ..
 ```
 
-## [eapi](eapi)
+## [eAPI](eapi)
 
 ```
 cd eapi
@@ -135,23 +135,26 @@ python3 test2.py
 cd ..
 ```
 
-## [ansible](ansible)
+## [Ansible](ansible)
 ```
 cd ansible
+```
+```
 ls
 ```
+
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
 ### Test the devices (ntp, lldp, temperature, ...)
 
-to run all the tests: 
+To run all the tests: 
 ```
 ansible-playbook playbooks/tests.yml
 ls reports
 more reports/POC-state.md 
 ```
-to run all only some tests, use ansible tags. Example:  
+To run all only some tests, use ansible tags. Example:  
 ```
 ansible-playbook playbooks/tests.yml --tags lldp
 ls reports
@@ -159,7 +162,7 @@ more reports/POC-state.md
 ```
 ### Collect show commands from the devices
 
-update the list of show commands you want to collect (ansible variable) and execute this playbook: 
+Update the list of show commands you want to collect (ansible variable) and execute this playbook: 
 ```
 ansible-playbook playbooks/snapshots.yml
 tree snapshots
@@ -176,14 +179,14 @@ We can use it to:
 - Convert YANG modules into equivalent YIN module (XML)
 - Generate a tree representation of YANG models for quick visualization
 
-### clone the openconfig repository
+### Clone the openconfig repository
 
 ```
 git clone https://github.com/openconfig/public.git
 ls public
 ```
 
-### move all the yang files from Openconfig to the same directory
+### Move all the YANG files from OpenConfig to the same directory
 
 ```
 cp public/release/models/*.yang yang_modules/.
@@ -195,12 +198,12 @@ cd yang_modules/
 ls
 ```
 
-### validate yang modules
+### Validate yang modules
 ```
 pyang openconfig-bgp.yang
 pyang openconfig-interfaces.yang
 ```
-### convert a YANG module into an equivalent YIN module
+### Convert a YANG module into an equivalent YIN module
 
 A YANG module can be translated into an XML syntax called YIN. The translated module is called a YIN module. The YANG and YIN formats contain equivalent information using different notations: YIN is YANG in XML. A YANG module can be translated into YIN syntax without losing any information.
 
@@ -228,7 +231,7 @@ It generates Python classes from a YANG module: It converts YANG module into a P
 ```
 cd yang_modules/
 ```
-### converts a YANG module into a Python module
+### Converts a YANG module into a Python module
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
 ls oc_bgp.py
@@ -350,7 +353,7 @@ more redirect_output.txt
 cd ..
 ```
 
-## telegraf
+## Telegraf
 
 Telegraf is an open source collector written in GO.  
 Telegraf collects data and writes them into a database.  
@@ -389,15 +392,20 @@ ls telegraf.d/
 ### start TIG stack 
 ```
 docker-compose up -d
+```
+```
 docker-compose ps
 docker ps
+docker images
 ```
-check telegraf logs
+### check telegraf logs
 ```
 docker logs telegraf
 ```
 
-### query influxdb from cli
+### query influxdb from cli  
+
+InfluxDB is an open source time series database written in GO.  
 
 Start an interactive session
 
@@ -454,6 +462,7 @@ exit
 ```
 pip3 freeze | grep influxdb
 ```
+Python interactive session
 ```
 from influxdb import InfluxDBClient
 influx_client = InfluxDBClient('localhost',8086)
@@ -467,13 +476,25 @@ for point in points:
 exit()
 ```
 
-### grafana dashboards 
+### grafana GUI 
 
-http://172.28.135.156:3000/login (arista/arista)
+Grafana is an open source tool used to visualize time series data.  
+It supports InfluxDB and other backends.  
+It runs as a web application.  
+It is written in GO.  
+
+We can now use the Grafana GUI. 
+The default username and password are admin/admin, but we changed them to arista/arista  
+The datasource is already configured. It uses InfluxDB.  
+We loaded ready to use dashboards.  
+
+http://172.28.135.156:3000/login 
 
 ### stop TIG
 ```
 docker-compose down
+```
+```
 docker ps
 ```
 
