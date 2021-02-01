@@ -41,11 +41,11 @@ If `ansible --version` or ` pyang --version` doesnt work:
 ```
 echo $PATH
 ```
-try: 
+try
 ```
 /home/arista/.local/bin/ansible --version
 ```
-update accordingly the PATH env var: 
+then update accordingly the PATH env var: 
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -73,7 +73,7 @@ cd automation_and_telemetry_workshop
 
 ## configure EOS devices
 
-### Configure all eos devices for gnmi and snmp and eapi:
+### Configure all eos devices for gNIO and SNMP and eAPI
 ```
 snmp-server community public ro
 username arista secret 0 arista
@@ -87,7 +87,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-### Configure one single eos device for isis lsdb streaming
+### Configure one single eos device for ISIS LSDB streaming
 ```
 management api models
    provider smash
@@ -102,12 +102,14 @@ Then restart octa on that swicth
 bash sudo killall Octa
 ```
 
-## check snmp
+## SNMP
 ```
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 
-## [netmiko hello world](netmiko)
+## [Netmiko](netmiko)
+
+Netmiko is a multi-vendor python library to simplify Paramiko SSH connections to network devices
 
 ```
 cd netmiko
@@ -120,7 +122,7 @@ more "show version.txt"
 cd ..
 ```
 
-## [eapi hello world](eapi)
+## [eapi](eapi)
 
 ```
 cd eapi
@@ -133,7 +135,7 @@ python3 test2.py
 cd ..
 ```
 
-## [ansible demo](ansible)
+## [ansible](ansible)
 ```
 cd ansible
 ls
@@ -166,7 +168,7 @@ tree snapshots
 cd ..
 ```
 
-## pyang demo
+## pyang 
 
 pyang is a python program.
 We can use it to:
@@ -218,10 +220,10 @@ pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
 cd ..
 ```
-## pyangbind demo
+## pyangbind
 
-pyangbind is a pyang plugin.
-It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.
+pyangbind is a pyang plugin.  
+It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.  
 
 ```
 cd yang_modules/
@@ -244,25 +246,43 @@ more ../gnmi/test.json
 cd ..
 ```
 
-## [gNMI demo using gnmic](gnmi)
+## [gNMI](gnmi)
+
+we will use gnmic (open source gnmi client)  
 
 ```
 cd gnmi/ 
+```
+```
 gnmic version
 ```
+
+Lets use the following RPC: capabilites, get, subscribe, set.  
 
 ### gnmi capabilities
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
 ```
 
-### gnmi get
+### gnmi get 
+
+Retrieve a snapshot for a path  
+
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
 
-### gnmi set
+### gnmi set 
+
+The Set RPC is used to modify states.    
+
+The SetRequest message uses the following fields:  
+- "delete" field: A set of paths which are to be removed from the data tree  
+- "replace" field: A set of "Update messages" indicating elements of the data tree whose content is to be replaced  
+- "update" field: A set of "Update messages" indicating elements of the data tree whose content is to be updated  
+
+
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path "/interfaces/interface[name=Ethernet1]/config/description"
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update-path "/interfaces/interface[name=Ethernet1]/config/description" --update-value "gnmi-example"
@@ -293,11 +313,17 @@ sh run sec bgp
 ```
 
 ### gnmi sub (to OC path)
+
+Request to the target to stream values for an OpenConfig path  
+
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
 ### gnmi sub (to eos native path)
+
+Request to the target to stream values for an EOS native path  
+
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
@@ -326,9 +352,12 @@ cd ..
 
 ## telegraf
 
-use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
+Telegraf is an open source collector written in GO.  
+Telegraf collects data and writes them into a database.  
+It is plugin-driven (it has input plugins, output plugins, ...)  
 
-more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
+Use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
+more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300  
 
 ```
 git clone https://github.com/rski/telegraf
@@ -340,9 +369,15 @@ docker images
 cd ..
 ```
 
-## [TIG demo](TIG)
+## [TIG](TIG)  
 
-### About the setup 
+A TIG stack uses:
+   - Telegraf to collect data and to write the collected data in InfluxDB.
+   - InfluxDB to store the data collected.
+   - Grafana to visualize the data stored in InfluxDB.
+
+
+### About the TIG stack setup 
 
 ```
 cd TIG
@@ -363,13 +398,28 @@ docker logs telegraf
 ```
 
 ### query influxdb from cli
+
+Start an interactive session
+
 ```
 docker exec -it influxdb bash
+```
+```
 influx
+```
+List databases
+```
 SHOW DATABASE
+```
+Select a database
+```
 use arista
+```
+List measurements
+```
 SHOW MEASUREMENTS
 ```
+Query ifcounters measurement
 ```
 SHOW TAG KEYS FROM "ifcounters"
 SHOW TAG VALUES FROM "ifcounters" with KEY = "device"
@@ -385,6 +435,7 @@ SELECT derivative(mean("in_unicast_pkts"), 1s) FROM "ifcounters" WHERE ("device"
 SELECT stddev("in_octets") FROM "ifcounters" WHERE ("device" = 'ta373' AND ("name" = 'Ethernet1' OR "name" = 'Ethernet2') AND (time >= now() - 10m)) GROUP BY time(1m)
 SELECT derivative(stddev("out_octets"), 1s)  / 8 FROM "ifcounters" WHERE ("device" =~ /ta.*/ AND "name" =~ /Ethernet[1|2]/ AND (time >= now() - 10m)) GROUP BY time(1m), "device"
 ```
+Query openconfig_bgp measurement
 ```
 SHOW TAG KEYS FROM "openconfig_bgp"
 SHOW TAG VALUES FROM "openconfig_bgp" WITH KEY = "device"
@@ -400,6 +451,9 @@ exit
 ```
 
 ### query influxdb from python
+```
+pip3 freeze | grep influxdb
+```
 ```
 from influxdb import InfluxDBClient
 influx_client = InfluxDBClient('localhost',8086)
