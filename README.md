@@ -3,7 +3,7 @@
 - Ansible demo  
 - AVD end to end demo using eAPI (this demo is not covered in this repo) 
 - YANG/gNMI presentation
-- Pyang/Pyangbind/gnmic/TIG stack demo 
+- Pyang/PyangBind/gNMIc/TIG stack demo 
 
 ## Ubuntu VM from POC lab 
 
@@ -140,37 +140,44 @@ From the root of the repository:
 cd ansible
 ls
 ```
+### Update the inventory 
+
+Update the [inventory.yml](ansible/inventory.yml) file and the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories)
 
 ### Basic demo 
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
 
-### Test the devices (ntp, lldp, temperature, ...) and generate a report
+### Test the devices and generate a report
 
-To run all the tests: 
+To run all the tests (NTP, LLDP, temperature, ...): 
 ```
 ansible-playbook playbooks/tests.yml
 ```
+This will generate [this markdown report](ansible/reports/POC-state.md) and [this CSV report](ansible/reports/POC-state.csv)
 ```
 ls reports
 more reports/POC-state.md 
 more reports/POC-state.csv
 ```
 
-To run all only some tests, use ansible tags. Example:  
+To run all only some tests, use ansible tags.  
+Example:  
 ```
 ansible-playbook playbooks/tests.yml --tags lldp
 ```
 
-### Collect show commands from the devices
+### Collect `show commands` from the devices
 
 Update the list of show commands you want to collect (ansible variable) and execute this playbook: 
 ```
 ansible-playbook playbooks/snapshots.yml
+```
+The collected commands are saved in the directory [ansible/snaphots](ansible/snapshots)  
+```
 tree snapshots
 ```
-
 ## pyang 
 
 pyang is a python program.
