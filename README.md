@@ -120,12 +120,20 @@ cd ansible
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
+update the list of show commands you want to collect (ansible variable) and: 
 ```
 ansible-playbook playbooks/snapshots.yml
 tree snapshots
 ```
+to run all the tests: 
 ```
 ansible-playbook playbooks/tests.yml
+ls reports
+more reports/POC-state.md 
+```
+to run all only some tests, use ansible tags 
+```
+ansible-playbook playbooks/tests.yml --tags ntp
 ls reports
 more reports/POC-state.md 
 ```
@@ -134,8 +142,11 @@ cd ..
 ```
 
 ## pyang
+
 ```
 git clone https://github.com/openconfig/public.git
+```
+```
 cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
@@ -153,7 +164,7 @@ convert yang to yin
 pyang openconfig-bgp.yang -f yin -o openconfig-bgp.yin
 ls *.yin
 ```
-get a tree
+get a tree representation of a YANG module
 ```
 pyang -f tree openconfig-interfaces.yang
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
@@ -163,16 +174,21 @@ pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 cd ..
 ```
 ## pyangbind
+
 ```
 cd yang_modules/
 ```
+generate python class and methods from a YANG module
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
 ls oc_bgp.py
 ```
+consume the new python module with your own code
 ```
 more pyangbind_demo.py
 python3 pyangbind_demo.py
+```
+```
 more ../gnmi/test.json 
 ```
 ```
@@ -220,15 +236,16 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 sh run sec bgp
 ```
 
-gnmi sub
-```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
-```
 gnmi get
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
+```
+
+gnmi sub
+```
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
 sub to eos native
 ```
@@ -270,12 +287,15 @@ cd ..
 
 ## TIG
 
-start TIG
+
 ```
 cd TIG
 more docker-compose.yml
 ls dashboards
 ls telegraf.d/
+```
+start TIG stack 
+```
 docker-compose up -d
 docker-compose ps
 docker ps
@@ -288,7 +308,7 @@ query influxdb from cli
 ```
 docker exec -it influxdb bash
 influx
-show database
+SHOW DATABASE
 use arista
 SHOW MEASUREMENTS
 ```
@@ -335,8 +355,8 @@ for point in points:
 exit()
 ```
 
-grafana dashboards (arista/arista)
-http://172.28.135.156:3000/login
+grafana dashboards 
+http://172.28.135.156:3000/login (arista/arista)
 
 stop TIG
 ```
