@@ -201,7 +201,7 @@ git clone https://github.com/openconfig/public.git
 ls public
 ```
 
-### Move all the YANG files from OpenConfig to the same directory
+### Copy all the YANG files from OpenConfig to the same directory
 
 ```
 cp public/release/models/*.yang yang_modules/.
