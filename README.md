@@ -1,4 +1,4 @@
-## automation server
+## ubuntu VM from POC lab 
 
 ```
 $ lsb_release -a
@@ -29,11 +29,15 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` doesnt work, try:  
+If `ansible --version` doesnt work:  
 ```
 echo $PATH
+```
+try: 
+```
 /home/arista/.local/bin/ansible --version
 ```
+update PATH env var: 
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -44,7 +48,7 @@ Then:
 - install docker (https://docs.docker.com/engine/install/ubuntu/)
 - install docker-compose (https://docs.docker.com/compose/install/)
 - install gnmic (https://gnmic.kmrd.dev./#installation) 
-   - if it fails: 
+   - if gnmic installation fails: 
    ```
    wget https://github.com/karimra/gnmic/raw/master/install.sh
    sudo bash install.sh 
@@ -254,7 +258,7 @@ cd ..
 ```
 ## telegraf
 
-use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time
+use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
 more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
 ```
 git clone https://github.com/rski/telegraf
