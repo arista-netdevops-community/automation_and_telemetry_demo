@@ -15,13 +15,13 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-Change DNS to 8.8.8.8
+Change DNS to 8.8.8.8 so you can resolve domain names  
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
 ping www.google.com
 ```
-Now we can run these commands
+Now we can run these commands to update the VM and install tools
 ```
 sudo apt-get update
 sudo apt-get -y upgrade
