@@ -5,7 +5,7 @@
 - YANG/gNMI presentation
 - Pyang/Pyangbind/gnmic/TIG stack demo 
 
-## ubuntu VM from POC lab 
+## Ubuntu VM from POC lab 
 
 ```
 $ lsb_release -a
@@ -15,7 +15,7 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-change dns to 8.8.8.8
+Change dns to 8.8.8.8
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
@@ -28,7 +28,7 @@ sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
 pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
 ```
-check 
+Check 
 ```
 pip3 list
 ```
@@ -37,7 +37,7 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` or ` pyang --version` doesnt work:  
+If `ansible --version` or ` pyang --version` doesnt work, check the PATH env var: 
 ```
 echo $PATH
 ```
@@ -49,6 +49,8 @@ then update accordingly the PATH env var:
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
+```
+```
 ansible --version
 ```
 
@@ -62,7 +64,7 @@ Then install also:
    sudo bash install.sh 
    ```
 
-## clone this repository 
+## Clone this repository 
 
 ```
 git clone https://github.com/ksator/automation_and_telemetry_workshop.git
@@ -111,6 +113,7 @@ snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 
 Netmiko is a multi-vendor python library to simplify Paramiko SSH connections to network devices
 
+From the root of this repository: 
 ```
 cd netmiko
 ```
@@ -118,24 +121,21 @@ cd netmiko
 python3 test.py
 more "show version.txt"
 ```
-```
-cd ..
-```
 
 ## [eAPI](eapi)
 
+From the root of this repository: 
 ```
-cd eapi
+cd api
 ```
 ```
 python3 test1.py
 python3 test2.py
 ```
-```
-cd ..
-```
 
 ## [Ansible](ansible)
+
+From the root of the repository: 
 ```
 cd ansible
 ```
@@ -167,9 +167,6 @@ Update the list of show commands you want to collect (ansible variable) and exec
 ansible-playbook playbooks/snapshots.yml
 tree snapshots
 ```
-```
-cd ..
-```
 
 ## pyang 
 
@@ -179,10 +176,17 @@ We can use it to:
 - Convert YANG modules into equivalent YIN module (XML)
 - Generate a tree representation of YANG models for quick visualization
 
+```
+pip3 freeze | grep pyang
+```
+
 ### Clone the openconfig repository
 
+From the root of this repository: 
 ```
 git clone https://github.com/openconfig/public.git
+```
+```
 ls public
 ```
 
@@ -199,10 +203,12 @@ ls
 ```
 
 ### Validate yang modules
+
 ```
 pyang openconfig-bgp.yang
 pyang openconfig-interfaces.yang
 ```
+
 ### Convert a YANG module into an equivalent YIN module
 
 A YANG module can be translated into an XML syntax called YIN. The translated module is called a YIN module. The YANG and YIN formats contain equivalent information using different notations: YIN is YANG in XML. A YANG module can be translated into YIN syntax without losing any information.
@@ -220,22 +226,28 @@ pyang -f tree openconfig-interfaces.yang
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
 pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
-```
-cd ..
-```
+
 ## pyangbind
 
 pyangbind is a pyang plugin.  
 It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.  
 
 ```
+pip3 freeze | grep pyang
+```
+
+From the root of this repository: 
+```
 cd yang_modules/
 ```
+
 ### Converts a YANG module into a Python module
+
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
 ls oc_bgp.py
 ```
+
 ### Use the new python module to generate openconfig configuration 
 
 ```
@@ -245,19 +257,18 @@ python3 pyangbind_demo.py
 ```
 more ../gnmi/test.json 
 ```
-```
-cd ..
-```
+
 
 ## [gNMI](gnmi)
 
 we will use gnmic (open source gnmi client)  
-
-```
-cd gnmi/ 
-```
 ```
 gnmic version
+```
+
+From the root of this repository: 
+```
+cd gnmi/ 
 ```
 
 Lets use the following RPC: capabilites, get, subscribe, set.  
@@ -349,9 +360,7 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 ```
 more redirect_output.txt
 ```
-```
-cd ..
-```
+
 
 ## Telegraf
 
@@ -362,15 +371,15 @@ It is plugin-driven (it has input plugins, output plugins, ...)
 Use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
 more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300  
 
+From the root of this repository: 
+
 ```
 git clone https://github.com/rski/telegraf
 cd telegraf
 make docker-image
 docker images
 ```
-```
-cd ..
-```
+
 
 ## [TIG](TIG)  
 
@@ -382,14 +391,17 @@ A TIG stack uses:
 
 ### About the TIG stack setup 
 
+From the root of this repository: 
 ```
 cd TIG
+```
+```
 more docker-compose.yml
 ls dashboards
 ls telegraf.d/
 ```
 
-### start TIG stack 
+### Start the TIG stack 
 ```
 docker-compose up -d
 ```
@@ -398,12 +410,12 @@ docker-compose ps
 docker ps
 docker images
 ```
-### check telegraf logs
+### Check telegraf logs
 ```
 docker logs telegraf
 ```
 
-### query influxdb from cli  
+### Query influxdb from CLI  
 
 InfluxDB is an open source time series database written in GO.  
 
@@ -458,7 +470,7 @@ exit
 exit
 ```
 
-### query influxdb from python
+### Query influxdb from python
 ```
 pip3 freeze | grep influxdb
 ```
@@ -476,7 +488,7 @@ for point in points:
 exit()
 ```
 
-### grafana GUI 
+### Grafana GUI 
 
 Grafana is an open source tool used to visualize time series data.  
 It supports InfluxDB and other backends.  
@@ -490,7 +502,7 @@ We loaded ready to use dashboards.
 
 http://172.28.135.156:3000/login 
 
-### stop TIG
+### Stop the TIG stack
 ```
 docker-compose down
 ```
