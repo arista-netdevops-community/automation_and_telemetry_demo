@@ -28,6 +28,7 @@ sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
 pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
 ```
+check 
 ```
 pip3 list
 ```
@@ -51,10 +52,10 @@ echo $PATH
 ansible --version
 ```
 
-Then:
-- install docker (https://docs.docker.com/engine/install/ubuntu/)
-- install docker-compose (https://docs.docker.com/compose/install/)
-- install gnmic (https://gnmic.kmrd.dev./#installation) 
+Then install also:
+- docker (https://docs.docker.com/engine/install/ubuntu/)
+- docker-compose (https://docs.docker.com/compose/install/)
+- gnmic (https://gnmic.kmrd.dev./#installation) 
    - if gnmic installation fails: 
    ```
    wget https://github.com/karimra/gnmic/raw/master/install.sh
@@ -65,6 +66,8 @@ Then:
 
 ```
 git clone https://github.com/ksator/automation_and_telemetry_workshop.git
+```
+```
 cd automation_and_telemetry_workshop
 ```
 
@@ -84,7 +87,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-### Configure one single eos device for isis lsdb streaming:
+### Configure one single eos device for isis lsdb streaming
 ```
 management api models
    provider smash
@@ -138,7 +141,7 @@ ls
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
-### Test the devices  (ntp, lldp, temperature, ...)
+### Test the devices (ntp, lldp, temperature, ...)
 
 to run all the tests: 
 ```
@@ -148,7 +151,7 @@ more reports/POC-state.md
 ```
 to run all only some tests, use ansible tags. Example:  
 ```
-ansible-playbook playbooks/tests.yml --tags ntp
+ansible-playbook playbooks/tests.yml --tags lldp
 ls reports
 more reports/POC-state.md 
 ```
@@ -165,10 +168,21 @@ cd ..
 
 ## pyang demo
 
+pyang is a python program.
+We can use it to:
+- Validate YANG modules against YANG RFCs
+- Convert YANG modules into equivalent YIN module (XML)
+- Generate a tree representation of YANG models for quick visualization
+
+### clone the openconfig repository
+
 ```
 git clone https://github.com/openconfig/public.git
 ls public
 ```
+
+### move all the yang files from Openconfig to the same directory
+
 ```
 cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
@@ -178,16 +192,24 @@ cp public/third_party/ietf/*.yang yang_modules/.
 cd yang_modules/
 ls
 ```
+
 ### validate yang modules
 ```
 pyang openconfig-bgp.yang
+pyang openconfig-interfaces.yang
 ```
-### convert yang to yin
+### convert a YANG module into an equivalent YIN module
+
+A YANG module can be translated into an XML syntax called YIN. The translated module is called a YIN module. The YANG and YIN formats contain equivalent information using different notations: YIN is YANG in XML. A YANG module can be translated into YIN syntax without losing any information.
+
+Example (openconfig-bgp.yin is the YIN equivalent of openconfig-bgp.yang)
+
 ```
 pyang openconfig-bgp.yang -f yin -o openconfig-bgp.yin
 ls *.yin
 ```
-### get a tree representation of a YANG module
+### Generate a tree representation of YANG modules for quick visualization
+
 ```
 pyang -f tree openconfig-interfaces.yang
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
@@ -198,15 +220,19 @@ cd ..
 ```
 ## pyangbind demo
 
+pyangbind is a pyang plugin.
+It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.
+
 ```
 cd yang_modules/
 ```
-### generate python class and methods from a YANG module
+### converts a YANG module into a Python module
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
 ls oc_bgp.py
 ```
-### consume the new python module with your own code
+### Use the new python module to generate openconfig configuration 
+
 ```
 more pyangbind_demo.py
 python3 pyangbind_demo.py
