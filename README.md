@@ -21,7 +21,7 @@ sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
 ping www.google.com
 ```
-Now we can run these commands to update the VM and install tools
+Now you can run these commands to update the VM and install tools
 ```
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -142,7 +142,6 @@ ls
 ```
 
 ### Basic demo 
-
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
@@ -152,15 +151,18 @@ ansible-playbook playbooks/print_version_and_models.yml
 To run all the tests: 
 ```
 ansible-playbook playbooks/tests.yml
+```
+```
 ls reports
 more reports/POC-state.md 
+more reports/POC-state.csv
 ```
+
 To run all only some tests, use ansible tags. Example:  
 ```
 ansible-playbook playbooks/tests.yml --tags lldp
-ls reports
-more reports/POC-state.md 
 ```
+
 ### Collect show commands from the devices
 
 Update the list of show commands you want to collect (ansible variable) and execute this playbook: 
@@ -414,7 +416,7 @@ docker-compose ps
 docker ps
 docker images
 ```
-### Check telegraf logs
+### Check Telegraf logs
 ```
 docker logs telegraf
 ```
