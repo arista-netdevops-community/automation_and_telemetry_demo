@@ -20,7 +20,7 @@ sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
 ping www.google.com
 ```
-Run these commands
+Now we can run these commands
 ```
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -35,7 +35,7 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` doesnt work:  
+If `ansible --version` or ` pyang --version` doesnt work:  
 ```
 echo $PATH
 ```
@@ -43,7 +43,7 @@ try:
 ```
 /home/arista/.local/bin/ansible --version
 ```
-update PATH env var: 
+update accordingly the PATH env var: 
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -98,12 +98,12 @@ Then restart octa on that swicth
 bash sudo killall Octa
 ```
 
-## snmp
+## check snmp
 ```
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 
-## netmiko
+## netmiko hello world
 ```
 cd netmiko
 ```
@@ -115,7 +115,7 @@ more "show version.txt"
 cd ..
 ```
 
-## eapi
+## eapi hello world
 
 ```
 cd eapi
@@ -128,7 +128,7 @@ python3 test2.py
 cd ..
 ```
 
-## ansible
+## ansible demo
 ```
 cd ansible
 ls
@@ -161,7 +161,7 @@ tree snapshots
 cd ..
 ```
 
-## pyang
+## pyang demo
 
 ```
 git clone https://github.com/openconfig/public.git
@@ -194,7 +194,7 @@ pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
 cd ..
 ```
-## pyangbind
+## pyangbind demo
 
 ```
 cd yang_modules/
@@ -216,15 +216,22 @@ more ../gnmi/test.json
 cd ..
 ```
 
-## gNMI
+## gNMI demo using gnmic
 
 ```
 cd gnmi/ 
+gnmic version
 ```
 
 ### gnmi capabilities
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
+```
+
+### gnmi get
+```
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
+gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
 
 ### gnmi set
@@ -257,18 +264,12 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 sh run sec bgp
 ```
 
-### gnmi get
-```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
-gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
-```
-
-### gnmi sub
+### gnmi sub (to OC path)
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
-### sub to eos native
+### gnmi sub (to eos native path)
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
@@ -294,15 +295,20 @@ more redirect_output.txt
 ```
 cd ..
 ```
+
 ## telegraf
 
 use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
+
 more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
+
 ```
 git clone https://github.com/rski/telegraf
 cd telegraf
 make docker-image
 docker images
+```
+```
 cd ..
 ```
 
