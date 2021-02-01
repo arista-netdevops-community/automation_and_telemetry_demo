@@ -314,7 +314,7 @@ docker images
 cd ..
 ```
 
-## [TIG demo](tig)
+## [TIG demo](TIG)
 
 ### About the setup 
 
