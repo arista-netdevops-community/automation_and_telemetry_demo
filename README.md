@@ -228,9 +228,9 @@ pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
 pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
 
-## pyangbind
+## PyangBind
 
-pyangbind is a pyang plugin.  
+PyangBind is a pyang plugin.  
 It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.  
 
 ```
@@ -246,15 +246,18 @@ cd yang_modules/
 
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
+```
+```
 ls oc_bgp.py
 ```
 
-### Use the new python module to generate openconfig configuration 
+### Use the new python module to generate OpenConfig configuration 
 
 ```
 more pyangbind_demo.py
 python3 pyangbind_demo.py
 ```
+It generated this [OpenConfig configuration file](/gnmi/test.json)
 ```
 more ../gnmi/test.json 
 ```
@@ -475,7 +478,6 @@ exit
 ```
 pip3 freeze | grep influxdb
 ```
-Python interactive session
 ```
 from influxdb import InfluxDBClient
 influx_client = InfluxDBClient('localhost',8086)
