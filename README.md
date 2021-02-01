@@ -1,6 +1,7 @@
 ## Agenda
 
 - Ansible demo  
+- YANG/gNMI presentation 
 - Pyang/Pyangbind/gnmic/TIG demo 
 
 ## ubuntu VM from POC lab 
