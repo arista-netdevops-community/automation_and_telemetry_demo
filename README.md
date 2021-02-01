@@ -104,7 +104,8 @@ bash sudo killall Octa
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 
-## netmiko hello world
+## [netmiko hello world](netmiko)
+
 ```
 cd netmiko
 ```
@@ -116,7 +117,7 @@ more "show version.txt"
 cd ..
 ```
 
-## eapi hello world
+## [eapi hello world](eapi)
 
 ```
 cd eapi
@@ -129,7 +130,7 @@ python3 test2.py
 cd ..
 ```
 
-## ansible demo
+## [ansible demo](ansible)
 ```
 cd ansible
 ls
@@ -217,7 +218,7 @@ more ../gnmi/test.json
 cd ..
 ```
 
-## gNMI demo using gnmic
+## [gNMI demo using gnmic](gnmi)
 
 ```
 cd gnmi/ 
@@ -313,7 +314,7 @@ docker images
 cd ..
 ```
 
-## TIG
+## [TIG demo](tig)
 
 ### About the setup 
 
