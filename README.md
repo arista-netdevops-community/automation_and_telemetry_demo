@@ -1,8 +1,9 @@
 ## Agenda
 
 - Ansible demo  
-- YANG/gNMI presentation 
-- Pyang/Pyangbind/gnmic/TIG demo 
+- AVD end to end demo using eAPI (this demo is not covered in this repo) 
+- YANG/gNMI presentation
+- Pyang/Pyangbind/gnmic/TIG stack demo 
 
 ## ubuntu VM from POC lab 
 
