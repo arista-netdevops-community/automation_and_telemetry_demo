@@ -15,7 +15,7 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-Change dns to 8.8.8.8
+Change DNS to 8.8.8.8
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
@@ -126,7 +126,7 @@ more "show version.txt"
 
 From the root of this repository: 
 ```
-cd api
+cd eapi
 ```
 ```
 python3 test1.py
