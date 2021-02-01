@@ -193,7 +193,7 @@ pip3 freeze | grep pyang
 
 ### Clone the openconfig repository
 
-From the root of this repository: 
+From the root of this repository:
 ```
 git clone https://github.com/openconfig/public.git
 ```
@@ -201,13 +201,15 @@ git clone https://github.com/openconfig/public.git
 ls public
 ```
 
-### Copy all the YANG files from OpenConfig to the same directory
+### Copy all the YANG files from OpenConfig to the yang_modules directory
 
 ```
 cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
 ```
+
+### Move to the yang_modules directory
 ```
 cd yang_modules/
 ls
@@ -252,7 +254,7 @@ From the root of this repository:
 cd yang_modules/
 ```
 
-### Converts a YANG module into a Python module
+### Convert a YANG module into a Python module
 
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
@@ -271,7 +273,7 @@ It generated this [OpenConfig configuration file](/gnmi/test.json)
 ```
 more ../gnmi/test.json 
 ```
-
+This configuration will be loaded later on a switch using gNMI.  
 
 ## gNMI
 
@@ -285,14 +287,14 @@ From the root of this repository, move to the [gNMI directory](gnmi)
 cd gnmi/ 
 ```
 
-Lets use the following RPC: capabilities, get, subscribe, set.  
+Lets use the following RPC: Capabilities, Get, Subscribe, Set.  
 
-### gNMI capabilities
+### gNMI Capabilities RPC
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
 ```
 
-### gNMI get 
+### gNMI Get RPC 
 
 Retrieve a snapshot for a path  
 
@@ -301,7 +303,7 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
 
-### gNMI set 
+### gNMI Set RPC 
 
 The Set RPC is used to modify states.    
 
@@ -322,7 +324,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update  "/inte
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
 sh run int et3
 ```
-### PyangBind + gNMI
+### PyangBind + gNMI Set RPC
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
@@ -340,7 +342,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 sh run sec bgp
 ```
 
-### gNMI sub (to OpenConfig paths)
+### gNMI Subscribe RPC (to OpenConfig paths)
 
 Request to the target to stream values for an OpenConfig path  
 
@@ -348,7 +350,7 @@ Request to the target to stream values for an OpenConfig path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
-### gNMI sub (to EOS native paths)
+### gNMI Subscribe RPC (to EOS native paths)
 
 Request to the target to stream values for an EOS native path  
 
@@ -356,7 +358,7 @@ Request to the target to stream values for an EOS native path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
 
-### gNMI sub to ISIS LSDB
+### gNMI Subscribe RPC (to ISIS LSDB)
 
 ```
 more gnmic_conf.yml
@@ -374,7 +376,6 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 ```
 more redirect_output.txt
 ```
-
 
 ## Telegraf
 
@@ -403,7 +404,7 @@ A TIG stack uses:
    - Grafana to visualize the data stored in InfluxDB.
 
 
-### About the TIG stack setup 
+### About this TIG stack setup 
 
 From the root of this repository, move to the [TIG](TIG) directory 
 ```
