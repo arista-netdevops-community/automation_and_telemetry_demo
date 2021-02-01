@@ -37,7 +37,7 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` or ` pyang --version` doesnt work, check the PATH env var: 
+If `ansible --version` or ` pyang --version` doesnt work, check the PATH env variable: 
 ```
 echo $PATH
 ```
@@ -45,7 +45,7 @@ try
 ```
 /home/arista/.local/bin/ansible --version
 ```
-then update accordingly the PATH env var: 
+then update accordingly the PATH env variable: 
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -142,16 +142,17 @@ ls
 ```
 ### Update the inventory 
 
-Update the [inventory.yml](ansible/inventory.yml) file and the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories)
+Update the [inventory.yml](ansible/inventory.yml) file and the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories
 
 ### Basic demo 
+
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
 
 ### Test the devices and generate a report
 
-To run all the tests (NTP, LLDP, temperature, ...): 
+To run all the tests (NTP, LLDP, interfaces state, temperature, ...): 
 ```
 ansible-playbook playbooks/tests.yml
 ```
@@ -170,11 +171,11 @@ ansible-playbook playbooks/tests.yml --tags lldp
 
 ### Collect `show commands` from the devices
 
-Update the list of show commands you want to collect (ansible variable) and execute this playbook: 
+Update the list of `show commands` you want to collect (this is an ansible variable currently defined in the [group_vars](ansible/group_vars) directory) and execute this playbook: 
 ```
 ansible-playbook playbooks/snapshots.yml
 ```
-The collected commands are saved in the directory [ansible/snaphots](ansible/snapshots)  
+The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)  
 ```
 tree snapshots
 ```
