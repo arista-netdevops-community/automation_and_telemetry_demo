@@ -109,11 +109,11 @@ bash sudo killall Octa
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 
-## [Netmiko](netmiko)
+## Netmiko
 
 Netmiko is a python library to simplify SSH connections to network devices
 
-From the root of this repository: 
+From the root of this repository, move to the [netmiko directory](netmiko)
 ```
 cd netmiko
 ```
@@ -122,9 +122,9 @@ python3 test.py
 more "show version.txt"
 ```
 
-## [eAPI](eapi)
+## eAPI (EOS API)
 
-From the root of this repository: 
+From the root of this repository, move to the [eAPI directory](eapi)
 ```
 cd eapi
 ```
@@ -133,9 +133,9 @@ python3 test1.py
 python3 test2.py
 ```
 
-## [Ansible](ansible)
+## Ansible
 
-From the root of the repository: 
+From the root of the repository, move to the [Ansible directory](ansible)
 ```
 cd ansible
 ls
@@ -273,14 +273,14 @@ more ../gnmi/test.json
 ```
 
 
-## [gNMI](gnmi)
+## gNMI
 
 We will use gNMIc (an open source gNMI client)  
 ```
 gnmic version
 ```
 
-From the root of this repository: 
+From the root of this repository, move to the [gNMI directory](gnmi)
 ```
 cd gnmi/ 
 ```
@@ -395,7 +395,7 @@ docker images
 ```
 
 
-## [TIG](TIG)  
+## TIG 
 
 A TIG stack uses:
    - Telegraf to collect data and to write the collected data in InfluxDB.
@@ -405,7 +405,7 @@ A TIG stack uses:
 
 ### About the TIG stack setup 
 
-From the root of this repository: 
+From the root of this repository, move to the [TIG](TIG) directory 
 ```
 cd TIG
 ```
