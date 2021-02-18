@@ -1,12 +1,19 @@
-## Agenda
+## About this repository
 
-- Netmiko/eAPI demo
+Network automation demo and telemetry demo with EOS devices: 
+
+- Hello world Netmiko demo
+- Hello world eAPI demo
 - Ansible demo
-- YANG/gNMI presentation
-- Pyang/PyangBind/gNMIc/pyGNMI/TIG stack demo
+- Pyang demo
+- PyangBind demo
+- gNMIc demo
+- pyGNMI demo
+- TIG stack demo
 
-## Ubuntu VM from POC lab
+## Set up an automation VM
 
+Ubuntu VM
 ```
 $ lsb_release -a
 No LSB modules are available.
@@ -65,7 +72,7 @@ Then install also:
    sudo bash install.sh
    ```
 
-## Clone this repository
+Then clone this repository
 
 ```
 git clone https://github.com/ksator/automation_and_telemetry_workshop.git
@@ -105,11 +112,6 @@ Then restart octa on that swicth
 bash sudo killall Octa
 ```
 
-## SNMP
-```
-snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
-```
-
 ## Netmiko
 
 Netmiko is a python library to simplify SSH connections to network devices
@@ -143,7 +145,8 @@ ls
 ```
 ### Update the inventory
 
-Update the [inventory.yml](ansible/inventory.yml) file and the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories
+Update the [inventory.yml](ansible/inventory.yml) file
+Update the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories
 
 ### Basic demo
 
@@ -276,7 +279,7 @@ more ../gnmi/test.json
 ```
 This configuration will be loaded later on a switch using gNMI.
 
-## gNMI
+## gNMIc
 
 We will use gNMIc (an open source gNMI client)
 ```
@@ -303,7 +306,6 @@ Retrieve a snapshot for a path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
-
 ### gNMI Set RPC
 
 The Set RPC is used to modify states.
@@ -358,8 +360,7 @@ Request to the target to stream values for an EOS native path
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
-
-### gNMI Subscribe RPC (to ISIS LSDB)
+ISIS LSDB:
 
 ```
 more gnmic_conf.yml
@@ -377,21 +378,42 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 ```
 more redirect_output.txt
 ```
+### gNMI and EOS commands
+
+Get an EOS show command via gNMI
+```
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path "cli:/show version"
+```
+The above RPC works if the device has this [YANG file](https://github.com/aristanetworks/yang/blob/master/EOS-4.24.2F/experimental/eos/models/arista-cli.yang)
+
+You can check this using the Capabilities RPC:
+```
+gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities | grep arista-cli
+```
+For more examples about EOS commands and gNMI you can refer to this [gist](https://gist.github.com/sulrich/81a2e2aec1d70d7a62f21a59299e640b)
 
 ## pyGNMI
+
+pyGNMI is a Python implementation of the gNMI client
 
 From the root of this repository, move to the [pygnmi directory](pygnmi)
 
 ```
 cd pygnmi
 ```
+Get RPC
 ```
 python3 get.py
 ```
+Subscribe RPC
 ```
 python3 sub.py
 ```
 
+## SNMP
+```
+snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
+```
 ## Telegraf
 
 Telegraf is an open source collector written in GO.
@@ -409,8 +431,6 @@ cd telegraf
 make docker-image
 docker images
 ```
-
-
 ## TIG
 
 A TIG stack uses:
