@@ -1,11 +1,11 @@
 ## Agenda
 
-- Ansible demo  
-- AVD end to end demo using eAPI (this demo is not covered in this repo) 
+- Netmiko/eAPI demo
+- Ansible demo
 - YANG/gNMI presentation
-- Pyang/PyangBind/gNMIc/TIG stack demo 
+- Pyang/PyangBind/gNMIc/pyGNMI/TIG stack demo
 
-## Ubuntu VM from POC lab 
+## Ubuntu VM from POC lab
 
 ```
 $ lsb_release -a
@@ -15,7 +15,7 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-Change DNS to 8.8.8.8 so you can resolve domain names  
+Change DNS to 8.8.8.8 so you can resolve domain names
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
@@ -27,8 +27,9 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
 pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
+pip3 install pygnmi
 ```
-Check 
+Check
 ```
 pip3 list
 ```
@@ -37,7 +38,7 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` or ` pyang --version` doesnt work, check the PATH env variable: 
+If `ansible --version` or ` pyang --version` doesnt work, check the PATH env variable:
 ```
 echo $PATH
 ```
@@ -45,7 +46,7 @@ try
 ```
 /home/arista/.local/bin/ansible --version
 ```
-then update accordingly the PATH env variable: 
+then update accordingly the PATH env variable:
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -57,14 +58,14 @@ ansible --version
 Then install also:
 - docker (https://docs.docker.com/engine/install/ubuntu/)
 - docker-compose (https://docs.docker.com/compose/install/)
-- gnmic (https://gnmic.kmrd.dev./#installation) 
-   - if gnmic installation fails: 
+- gnmic (https://gnmic.kmrd.dev./#installation)
+   - if gnmic installation fails:
    ```
    wget https://github.com/karimra/gnmic/raw/master/install.sh
-   sudo bash install.sh 
+   sudo bash install.sh
    ```
 
-## Clone this repository 
+## Clone this repository
 
 ```
 git clone https://github.com/ksator/automation_and_telemetry_workshop.git
@@ -140,11 +141,11 @@ From the root of the repository, move to the [Ansible directory](ansible)
 cd ansible
 ls
 ```
-### Update the inventory 
+### Update the inventory
 
 Update the [inventory.yml](ansible/inventory.yml) file and the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories
 
-### Basic demo 
+### Basic demo
 
 ```
 ansible-playbook playbooks/print_version_and_models.yml
@@ -152,34 +153,34 @@ ansible-playbook playbooks/print_version_and_models.yml
 
 ### Test the devices and generate a report
 
-To run all the tests (NTP, LLDP, interfaces state, temperature, ...): 
+To run all the tests (NTP, LLDP, interfaces state, temperature, ...):
 ```
 ansible-playbook playbooks/tests.yml
 ```
 This will generate [this markdown report](ansible/reports/POC-state.md) and [this CSV report](ansible/reports/POC-state.csv)
 ```
 ls reports
-more reports/POC-state.md 
+more reports/POC-state.md
 more reports/POC-state.csv
 ```
 
-To run all only some tests, use ansible tags.  
-Example:  
+To run all only some tests, use ansible tags.
+Example:
 ```
 ansible-playbook playbooks/tests.yml --tags lldp
 ```
 
 ### Collect `show commands` from the devices
 
-Update the list of `show commands` you want to collect (this is an ansible variable currently defined in the [group_vars](ansible/group_vars) directory) and execute this playbook: 
+Update the list of `show commands` you want to collect (this is an ansible variable currently defined in the [group_vars](ansible/group_vars) directory) and execute this playbook:
 ```
 ansible-playbook playbooks/snapshots.yml
 ```
-The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)  
+The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)
 ```
 tree snapshots
 ```
-## pyang 
+## pyang
 
 pyang is a python program.
 We can use it to:
@@ -242,14 +243,14 @@ pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 
 ## PyangBind
 
-PyangBind is a pyang plugin.  
-It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.  
+PyangBind is a pyang plugin.
+It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.
 
 ```
 pip3 freeze | grep pyang
 ```
 
-From the root of this repository: 
+From the root of this repository:
 ```
 cd yang_modules/
 ```
@@ -263,7 +264,7 @@ pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f 
 ls oc_bgp.py
 ```
 
-### Use the new python module to generate OpenConfig configuration 
+### Use the new python module to generate OpenConfig configuration
 
 ```
 more pyangbind_demo.py
@@ -271,46 +272,46 @@ python3 pyangbind_demo.py
 ```
 It generated this [OpenConfig configuration file](/gnmi/test.json)
 ```
-more ../gnmi/test.json 
+more ../gnmi/test.json
 ```
-This configuration will be loaded later on a switch using gNMI.  
+This configuration will be loaded later on a switch using gNMI.
 
 ## gNMI
 
-We will use gNMIc (an open source gNMI client)  
+We will use gNMIc (an open source gNMI client)
 ```
 gnmic version
 ```
 
 From the root of this repository, move to the [gNMI directory](gnmi)
 ```
-cd gnmi/ 
+cd gnmi/
 ```
 
-Lets use the following RPC: Capabilities, Get, Subscribe, Set.  
+Lets use the following RPC: Capabilities, Get, Subscribe, Set.
 
 ### gNMI Capabilities RPC
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
 ```
 
-### gNMI Get RPC 
+### gNMI Get RPC
 
-Retrieve a snapshot for a path  
+Retrieve a snapshot for a path
 
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
 gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
 ```
 
-### gNMI Set RPC 
+### gNMI Set RPC
 
-The Set RPC is used to modify states.    
+The Set RPC is used to modify states.
 
-The SetRequest message uses the following fields:  
-- "delete" field: A set of paths which are to be removed from the data tree  
-- "replace" field: A set of "Update messages" indicating elements of the data tree whose content is to be replaced  
-- "update" field: A set of "Update messages" indicating elements of the data tree whose content is to be updated  
+The SetRequest message uses the following fields:
+- "delete" field: A set of paths which are to be removed from the data tree
+- "replace" field: A set of "Update messages" indicating elements of the data tree whose content is to be replaced
+- "update" field: A set of "Update messages" indicating elements of the data tree whose content is to be updated
 
 
 ```
@@ -344,7 +345,7 @@ sh run sec bgp
 
 ### gNMI Subscribe RPC (to OpenConfig paths)
 
-Request to the target to stream values for an OpenConfig path  
+Request to the target to stream values for an OpenConfig path
 
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
@@ -352,7 +353,7 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfac
 ```
 ### gNMI Subscribe RPC (to EOS native paths)
 
-Request to the target to stream values for an EOS native path  
+Request to the target to stream values for an EOS native path
 
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
@@ -377,16 +378,30 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_nativ
 more redirect_output.txt
 ```
 
+## pyGNMI
+
+From the root of this repository, move to the [pygnmi directory](pygnmi)
+
+```
+cd pygnmi
+```
+```
+python3 get.py
+```
+```
+python3 sub.py
+```
+
 ## Telegraf
 
-Telegraf is an open source collector written in GO.  
-Telegraf collects data and writes them into a database.  
-It is plugin-driven (it has input plugins, output plugins, ...)  
+Telegraf is an open source collector written in GO.
+Telegraf collects data and writes them into a database.
+It is plugin-driven (it has input plugins, output plugins, ...)
 
-Use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time  
-more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300  
+Use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time
+more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
 
-From the root of this repository: 
+From the root of this repository:
 
 ```
 git clone https://github.com/rski/telegraf
@@ -396,7 +411,7 @@ docker images
 ```
 
 
-## TIG 
+## TIG
 
 A TIG stack uses:
    - Telegraf to collect data and to write the collected data in InfluxDB.
@@ -404,9 +419,9 @@ A TIG stack uses:
    - Grafana to visualize the data stored in InfluxDB.
 
 
-### About this TIG stack setup 
+### About this TIG stack setup
 
-From the root of this repository, move to the [TIG](TIG) directory 
+From the root of this repository, move to the [TIG](TIG) directory
 ```
 cd TIG
 ```
@@ -416,7 +431,7 @@ ls telegraf.d/
 ls dashboards
 ```
 
-### Start the TIG stack 
+### Start the TIG stack
 ```
 docker-compose up -d
 ```
@@ -430,9 +445,9 @@ docker images
 docker logs telegraf
 ```
 
-### Query influxdb from CLI  
+### Query influxdb from CLI
 
-InfluxDB is an open source time series database written in GO.  
+InfluxDB is an open source time series database written in GO.
 
 Start an interactive session
 
@@ -502,19 +517,19 @@ for point in points:
 exit()
 ```
 
-### Grafana GUI 
+### Grafana GUI
 
-Grafana is an open source tool used to visualize time series data.  
-It supports InfluxDB and other backends.  
-It runs as a web application.  
-It is written in GO.  
+Grafana is an open source tool used to visualize time series data.
+It supports InfluxDB and other backends.
+It runs as a web application.
+It is written in GO.
 
-We can now use the Grafana GUI. 
-The default username and password are admin/admin, but we changed them to arista/arista  
-The datasource is already configured. It uses InfluxDB.  
-We loaded ready to use dashboards.  
+We can now use the Grafana GUI.
+The default username and password are admin/admin, but we changed them to arista/arista
+The datasource is already configured. It uses InfluxDB.
+We loaded ready to use dashboards.
 
-http://172.28.135.156:3000/login 
+http://172.28.135.156:3000/login
 
 ### Stop the TIG stack
 ```
