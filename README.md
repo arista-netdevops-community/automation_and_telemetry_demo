@@ -1,6 +1,6 @@
 ## About this repository
 
-Network automation demo and telemetry demo with EOS devices: 
+Network automation demo and telemetry demo with EOS devices:
 
 - Hello world Netmiko demo
 - Hello world eAPI demo
@@ -49,11 +49,11 @@ If `ansible --version` or ` pyang --version` doesnt work, check the PATH env var
 ```
 echo $PATH
 ```
-try
+Try
 ```
 /home/arista/.local/bin/ansible --version
 ```
-then update accordingly the PATH env variable:
+Then update accordingly the PATH env variable:
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -183,7 +183,7 @@ The output of the `show commands` is saved in the directory [ansible/snaphots](a
 ```
 tree snapshots
 ```
-## pyang
+## Pyang
 
 pyang is a python program.
 We can use it to:
@@ -327,7 +327,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update  "/inte
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
 sh run int et3
 ```
-### PyangBind + gNMI Set RPC
+#### gNMI Set RPC + PyangBind output
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
@@ -344,8 +344,8 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 ```
 sh run sec bgp
 ```
-
-### gNMI Subscribe RPC (to OpenConfig paths)
+### gNMI Subscribe RPC
+#### To OpenConfig paths
 
 Request to the target to stream values for an OpenConfig path
 
@@ -353,7 +353,7 @@ Request to the target to stream values for an OpenConfig path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
-### gNMI Subscribe RPC (to EOS native paths)
+#### To EOS native paths
 
 Request to the target to stream values for an EOS native path
 
