@@ -2,14 +2,14 @@
 
 Network automation demo and telemetry demo with EOS devices:
 
-- Hello world Netmiko demo
-- Hello world eAPI demo
-- Ansible demo
-- Pyang demo
-- PyangBind demo
-- gNMIc demo
-- pyGNMI demo
-- TIG stack demo
+- Netmiko
+- eAPI
+- Ansible
+- Pyang
+- PyangBind
+- gNMIc
+- pyGNMI
+- TIG stack 
 
 ## Set up an automation VM
 
@@ -86,13 +86,23 @@ cd automation_and_telemetry_workshop
 ### Configure all EOS devices for gNMI and SNMP and eAPI
 ```
 snmp-server community public ro
+snmp-server vrf MGMT
+```
+```
 username arista secret 0 arista
+```
+```
 ip access-list GNMI
    10 permit tcp any any eq gnmi
+```
+```
 management api gnmi
    transport grpc def
+      vrf MGMT
       ip access-group GNMI
    provider eos-native
+```
+```
 management api http-commands
    protocol http
    no shutdown
@@ -146,6 +156,7 @@ ls
 ### Update the inventory
 
 Update the [inventory.yml](ansible/inventory.yml) file
+
 Update the variables [group_vars](ansible/group_vars) and [host_vars](ansible/host_vars) directories
 
 ### Basic demo
@@ -153,7 +164,16 @@ Update the variables [group_vars](ansible/group_vars) and [host_vars](ansible/ho
 ```
 ansible-playbook playbooks/print_version_and_models.yml
 ```
+### Collect `show commands` from the devices
 
+Update the list of `show commands` you want to collect (this is an ansible variable currently defined in the [group_vars](ansible/group_vars) directory) and execute this playbook:
+```
+ansible-playbook playbooks/snapshots.yml
+```
+The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)
+```
+tree snapshots
+```
 ### Test the devices and generate a report
 
 To run all the tests (NTP, LLDP, interfaces state, temperature, ...):
@@ -173,16 +193,6 @@ Example:
 ansible-playbook playbooks/tests.yml --tags lldp
 ```
 
-### Collect `show commands` from the devices
-
-Update the list of `show commands` you want to collect (this is an ansible variable currently defined in the [group_vars](ansible/group_vars) directory) and execute this playbook:
-```
-ansible-playbook playbooks/snapshots.yml
-```
-The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)
-```
-tree snapshots
-```
 ## Pyang
 
 pyang is a python program.
@@ -549,7 +559,7 @@ The default username and password are admin/admin, but we changed them to arista
 The datasource is already configured. It uses InfluxDB.
 We loaded ready to use dashboards.
 
-http://172.28.135.156:3000/login
+http://IP:3000/login
 
 ### Stop the TIG stack
 ```
