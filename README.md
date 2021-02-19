@@ -1,15 +1,50 @@
-## About this repository
+This repository has Network automation demo and telemetry demo with EOS devices
 
-Network automation demo and telemetry demo with EOS devices:
-
-- Netmiko
-- eAPI
-- Ansible
-- Pyang
-- PyangBind
-- gNMIc
-- pyGNMI
-- TIG stack 
+**Table of content**
+- [Set up an automation VM](#set-up-an-automation-vm)
+- [Configure EOS devices](#configure-eos-devices)
+  - [Configure all EOS devices for gNMI and SNMP and eAPI](#configure-all-eos-devices-for-gnmi-and-snmp-and-eapi)
+  - [Configure one single EOS device for ISIS LSDB streaming](#configure-one-single-eos-device-for-isis-lsdb-streaming)
+- [Netmiko](#netmiko)
+- [eAPI (EOS API)](#eapi-eos-api)
+- [Ansible](#ansible)
+  - [Update the inventory](#update-the-inventory)
+  - [Basic demo](#basic-demo)
+  - [Collect `show commands` from the devices](#collect-show-commands-from-the-devices)
+  - [Test the devices and generate a report](#test-the-devices-and-generate-a-report)
+- [Pyang](#pyang)
+  - [About Pyang](#about-pyang)
+  - [openconfig repository](#openconfig-repository)
+    - [Clone the openconfig repository](#clone-the-openconfig-repository)
+    - [Copy all the YANG files from OpenConfig to the yang_modules directory](#copy-all-the-yang-files-from-openconfig-to-the-yang_modules-directory)
+    - [Move to the yang_modules directory](#move-to-the-yang_modules-directory)
+  - [Validate yang modules](#validate-yang-modules)
+  - [Convert a YANG module into an equivalent YIN module](#convert-a-yang-module-into-an-equivalent-yin-module)
+  - [Generate a tree representation of YANG modules for quick visualization](#generate-a-tree-representation-of-yang-modules-for-quick-visualization)
+- [PyangBind](#pyangbind)
+  - [About PyangBind](#about-pyangbind)
+  - [Convert a YANG module into a Python module](#convert-a-yang-module-into-a-python-module)
+  - [Use the new python module to generate OpenConfig configuration](#use-the-new-python-module-to-generate-openconfig-configuration)
+- [gNMIc](#gnmic)
+  - [gNMI Capabilities RPC](#gnmi-capabilities-rpc)
+  - [gNMI Get RPC](#gnmi-get-rpc)
+  - [gNMI Set RPC](#gnmi-set-rpc)
+    - [gNMI Set RPC + PyangBind output](#gnmi-set-rpc--pyangbind-output)
+  - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
+    - [To OpenConfig paths](#to-openconfig-paths)
+    - [To EOS native paths](#to-eos-native-paths)
+  - [gNMI and EOS commands](#gnmi-and-eos-commands)
+- [pyGNMI](#pygnmi)
+- [SNMP](#snmp)
+- [TIG](#tig)
+  - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
+  - [About this TIG stack setup](#about-this-tig-stack-setup)
+  - [Start the TIG stack](#start-the-tig-stack)
+  - [Check Telegraf logs](#check-telegraf-logs)
+  - [Query influxdb from CLI](#query-influxdb-from-cli)
+  - [Query influxdb from python](#query-influxdb-from-python)
+  - [Grafana GUI](#grafana-gui)
+  - [Stop the TIG stack](#stop-the-tig-stack)
 
 ## Set up an automation VM
 
@@ -195,6 +230,8 @@ ansible-playbook playbooks/tests.yml --tags lldp
 
 ## Pyang
 
+### About Pyang
+
 pyang is a python program.
 We can use it to:
 - Validate YANG modules against YANG RFCs
@@ -204,8 +241,8 @@ We can use it to:
 ```
 pip3 freeze | grep pyang
 ```
-
-### Clone the openconfig repository
+### openconfig repository
+#### Clone the openconfig repository
 
 From the root of this repository:
 ```
@@ -215,7 +252,7 @@ git clone https://github.com/openconfig/public.git
 ls public
 ```
 
-### Copy all the YANG files from OpenConfig to the yang_modules directory
+#### Copy all the YANG files from OpenConfig to the yang_modules directory
 
 ```
 cp public/release/models/*.yang yang_modules/.
@@ -223,7 +260,7 @@ cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
 ```
 
-### Move to the yang_modules directory
+#### Move to the yang_modules directory
 ```
 cd yang_modules/
 ls
@@ -255,6 +292,8 @@ pyang openconfig-interfaces.yang -f tree  --tree-depth=4
 ```
 
 ## PyangBind
+
+### About PyangBind
 
 PyangBind is a pyang plugin.
 It generates Python classes from a YANG module: It converts YANG module into a Python module, such that Python can be used to generate data which conforms with the data model defined in YANG.
@@ -424,7 +463,14 @@ python3 sub.py
 ```
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
-## Telegraf
+## TIG
+
+A TIG stack uses:
+   - Telegraf to collect data and to write the collected data in InfluxDB.
+   - InfluxDB to store the data collected.
+   - Grafana to visualize the data stored in InfluxDB.
+
+### Telegraf and gNMI timestamps
 
 Telegraf is an open source collector written in GO.
 Telegraf collects data and writes them into a database.
@@ -441,14 +487,6 @@ cd telegraf
 make docker-image
 docker images
 ```
-## TIG
-
-A TIG stack uses:
-   - Telegraf to collect data and to write the collected data in InfluxDB.
-   - InfluxDB to store the data collected.
-   - Grafana to visualize the data stored in InfluxDB.
-
-
 ### About this TIG stack setup
 
 From the root of this repository, move to the [TIG](TIG) directory
