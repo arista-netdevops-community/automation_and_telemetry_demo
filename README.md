@@ -34,6 +34,8 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI Subscribe RPC to EOS native paths](#gnmi-subscribe-rpc-to-eos-native-paths)
   - [gNMI and EOS commands](#gnmi-and-eos-commands)
 - [pyGNMI](#pygnmi)
+  - [Get RPC](#get-rpc)
+  - [Subscribe RPC](#subscribe-rpc)
 - [SNMP](#snmp)
 - [TIG](#tig)
   - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
@@ -449,11 +451,11 @@ From the root of this repository, move to the [pygnmi directory](pygnmi)
 ```
 cd pygnmi
 ```
-Get RPC
+### Get RPC
 ```
 python3 get.py
 ```
-Subscribe RPC
+### Subscribe RPC
 ```
 python3 sub.py
 ```
