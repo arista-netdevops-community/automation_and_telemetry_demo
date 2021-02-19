@@ -14,7 +14,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [Test the devices and generate a report](#test-the-devices-and-generate-a-report)
 - [Pyang](#pyang)
   - [About Pyang](#about-pyang)
-  - [openconfig repository](#openconfig-repository)
+  - [Get YANG modules](#get-yang-modules)
     - [Clone the openconfig repository](#clone-the-openconfig-repository)
     - [Copy all the YANG files from OpenConfig to the yang_modules directory](#copy-all-the-yang-files-from-openconfig-to-the-yang_modules-directory)
     - [Move to the yang_modules directory](#move-to-the-yang_modules-directory)
@@ -29,10 +29,9 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI Capabilities RPC](#gnmi-capabilities-rpc)
   - [gNMI Get RPC](#gnmi-get-rpc)
   - [gNMI Set RPC](#gnmi-set-rpc)
-    - [gNMI Set RPC + PyangBind output](#gnmi-set-rpc--pyangbind-output)
-  - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
-    - [To OpenConfig paths](#to-openconfig-paths)
-    - [To EOS native paths](#to-eos-native-paths)
+  - [gNMI Set RPC + PyangBind output](#gnmi-set-rpc--pyangbind-output)
+  - [gNMI Subscribe RPC to OpenConfig paths](#gnmi-subscribe-rpc-to-openconfig-paths)
+  - [gNMI Subscribe RPC to EOS native paths](#gnmi-subscribe-rpc-to-eos-native-paths)
   - [gNMI and EOS commands](#gnmi-and-eos-commands)
 - [pyGNMI](#pygnmi)
 - [SNMP](#snmp)
@@ -241,7 +240,8 @@ We can use it to:
 ```
 pip3 freeze | grep pyang
 ```
-### openconfig repository
+### Get YANG modules
+
 #### Clone the openconfig repository
 
 From the root of this repository:
@@ -376,7 +376,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update  "/inte
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
 sh run int et3
 ```
-#### gNMI Set RPC + PyangBind output
+### gNMI Set RPC + PyangBind output
 ```
 gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
@@ -393,8 +393,7 @@ gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network
 ```
 sh run sec bgp
 ```
-### gNMI Subscribe RPC
-#### To OpenConfig paths
+### gNMI Subscribe RPC to OpenConfig paths
 
 Request to the target to stream values for an OpenConfig path
 
@@ -402,7 +401,7 @@ Request to the target to stream values for an OpenConfig path
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
-#### To EOS native paths
+### gNMI Subscribe RPC to EOS native paths
 
 Request to the target to stream values for an EOS native path
 
