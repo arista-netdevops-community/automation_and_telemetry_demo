@@ -1,6 +1,13 @@
 Interface                      Status         Protocol           Description
 Et1                            up             up                 
-Et2                            down           notpresent         
+Et1.16                         up             up                 
+Et1.17                         up             up                 
+Et1.18                         up             up                 
+Et1.19                         up             up                 
+Et1.22                         up             up                 
+Et1.23                         up             up                 
+Et1.26                         admin down     down               
+Et2                            up             up                 
 Et3                            down           notpresent         
 Et4                            down           notpresent         
 Et5                            down           notpresent         
@@ -48,13 +55,16 @@ Et46                           down           notpresent
 Et47                           down           notpresent         
 Et48                           down           notpresent         
 Et49/1                         up             up                 R1-E2/1
-Et50/1                         up             up                 R2-E3/3/1
+Et50/1                         down           down               R2-E3/3/1
 Et51/1                         up             up                 R5-E49/1
 Et52/1                         down           notpresent         
 Et53/1                         down           notpresent         
 Et54/1                         down           notpresent         
 Lo1                            up             up                 
 Lo2                            up             up                 
+Lo3                            up             up                 
+Lo4                            up             up                 
 Ma1                            up             up                 
-Vl100                          up             up                 
-Vl300                          up             up
+Vl22                           up             up                 
+Vl222                          up             up                 
+Vl223                          up             up

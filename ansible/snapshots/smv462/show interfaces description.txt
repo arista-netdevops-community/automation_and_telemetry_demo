@@ -9,11 +9,13 @@ Et7/1                          down           notpresent
 Et8/1                          down           notpresent         
 Et9/1                          up             up                 
 Et11/1                         up             up                 
+Et11/1.1                       down           lowerlayerdown     
 Et11/1.11                      up             up                 
 Et11/1.12                      up             up                 
 Et11/1.13                      up             up                 
 Et11/1.14                      up             up                 
 Et11/1.15                      up             up                 
+Et11/1.100                     up             up                 
 Et13/1                         down           notpresent         
 Et14/1                         down           notpresent         
 Et15/1                         down           notpresent         
@@ -40,4 +42,5 @@ Et35/1                         down           notpresent
 Et36/1                         down           notpresent         
 Lo1                            up             up                 
 Lo2                            up             up                 
+Lo3                            up             up                 
 Ma1                            up             up

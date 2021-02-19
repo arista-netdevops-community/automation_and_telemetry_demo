@@ -1,5 +1,10 @@
 Interface                      Status         Protocol           Description
 Et1                            up             up                 
+Et1.16                         up             up                 
+Et1.17                         up             up                 
+Et1.18                         up             up                 
+Et1.19                         up             up                 
+Et1.26                         up             up                 
 Et2                            up             up                 
 Et3                            down           notpresent         
 Et4                            down           notpresent         
@@ -51,8 +56,13 @@ Et49/1                         up             up                 R4-E51/1
 Et50/1                         up             up                 R1-E3/1
 Et51/1                         up             up                 R2-E3/4/1
 Et52/1                         up             up                 R3-E50/1
-Et53/1                         down           down               R6-E49/1
+Et53/1                         up             up                 R6-E49/1
 Et54/1                         down           notpresent         
 Lo1                            up             up                 
 Lo2                            up             up                 
-Ma1                            up             up
+Lo3                            up             up                 
+Lo4                            up             up                 
+Ma1                            up             up                 
+Vl20                           up             up                 
+Vl22                           up             up                 
+Vl23                           up             up

@@ -5,6 +5,8 @@ Et1.12                         up             up
 Et1.13                         up             up                 
 Et1.14                         up             up                 
 Et1.15                         up             up                 
+Et1.25                         down           lowerlayerdown     
+Et1.26                         up             up                 
 Et2                            down           notpresent         
 Et3                            down           notpresent         
 Et4                            down           notpresent         
@@ -54,12 +56,12 @@ Et47                           down           notpresent
 Et48                           down           notpresent         
 Et49/1                         up             up                 R2-E3/2/1
 Et50/1                         up             up                 R5-E52/1
-Et51/1                         down           down               R6-E51/1
-Et52/1                         down           notpresent         
+Et51/1                         up             up                 R6-E51/1
+Et52/1                         down           down               
 Et53/1                         down           notpresent         
 Et54/1                         down           notpresent         
 Lo1                            up             up                 
 Lo2                            up             up                 
-Ma1                            up             up                 
-Vl200                          down           lowerlayerdown     
-Vl300                          down           lowerlayerdown
+Lo3                            up             up                 
+Lo4                            up             up                 
+Ma1                            up             up

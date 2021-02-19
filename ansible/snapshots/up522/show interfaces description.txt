@@ -1,7 +1,7 @@
 Interface                      Status         Protocol           Description
-Et1/1                          up             up                 
-Et2/1                          up             up                 
-Et3/1                          up             up                 
+Et1/1                          up             up                 r161-rack4-ixia1-2/8
+Et2/1                          up             up                 ta368_et2
+Et3/1                          up             up                 ta373_et2
 Et4/1                          down           notpresent         
 Et5/1                          down           notpresent         
 Et6/1                          down           notpresent         
@@ -33,4 +33,5 @@ Et31/1                         down           notpresent
 Et32/1                         down           notpresent         
 Et33                           down           notpresent         
 Et34                           down           notpresent         
-Ma1                            up             up
+Ma1                            up             up                 
+Po2100                         down           lowerlayerdown

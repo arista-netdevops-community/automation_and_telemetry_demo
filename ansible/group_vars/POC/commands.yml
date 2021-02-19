@@ -1,13 +1,13 @@
 output_format:
   - text
   - markdown
-  - json
-  - yaml
+#  - json
+#  - yaml
 
 commands_list:
   - show lldp neighbors
   - show ip interface brief
   - show interfaces description
   - show version
-  - show running-config
+#  - show running-config
 

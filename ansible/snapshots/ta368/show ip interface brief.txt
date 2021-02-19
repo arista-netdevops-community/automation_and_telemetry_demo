@@ -1,11 +1,22 @@
 Address 
 Interface        IP Address           Status     Protocol         MTU   Owner   
 ---------------- -------------------- ---------- ------------ --------- ------- 
+Ethernet1        unassigned           up         up              1500           
+Ethernet1.16     unassigned           up         up              1500           
+Ethernet1.17     unassigned           up         up              1500           
+Ethernet1.18     unassigned           up         up              1500           
+Ethernet1.19     unassigned           up         up              1500           
+Ethernet1.26     115.0.25.1/24        up         up              1500           
 Ethernet49/1     11.0.45.5/24         up         up              9214           
 Ethernet50/1     11.0.15.5/24         up         up              9214           
 Ethernet51/1     11.0.25.5/24         up         up              9214           
 Ethernet52/1     11.0.35.5/24         up         up              9214           
-Ethernet53/1     11.0.56.5/24         down       down            9214           
+Ethernet53/1     11.0.56.5/24         up         up              9214           
 Loopback1        25.0.1.5/32          up         up             65535           
 Loopback2        25.0.2.5/32          up         up             65535           
-Management1      172.28.128.69/20     up         up              1500
+Loopback3        26.0.3.5/32          up         up             65535           
+Loopback4        25.0.4.5/32          up         up             65535           
+Management1      172.28.128.69/20     up         up              1500           
+Vlan20           unassigned           up         up              1500           
+Vlan22           22.0.0.254/24        up         up              1500           
+Vlan23           23.0.0.254/24        up         up              1500

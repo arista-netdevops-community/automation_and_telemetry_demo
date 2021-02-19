@@ -6,12 +6,16 @@
 - [show ip interface brief](#show-ip-interface-brief)
 - [show interfaces description](#show-interfaces-description)
 - [show version](#show-version)
-- [show running-config](#show-running-config)
 ## show interfaces description
 
 ```
 Interface                      Status         Protocol           Description
 Et1                            up             up                 
+Et1.16                         up             up                 
+Et1.17                         up             up                 
+Et1.18                         up             up                 
+Et1.19                         up             up                 
+Et1.26                         up             up                 
 Et2                            up             up                 
 Et3                            down           notpresent         
 Et4                            down           notpresent         
@@ -63,11 +67,16 @@ Et49/1                         up             up                 R4-E51/1
 Et50/1                         up             up                 R1-E3/1
 Et51/1                         up             up                 R2-E3/4/1
 Et52/1                         up             up                 R3-E50/1
-Et53/1                         down           down               R6-E49/1
+Et53/1                         up             up                 R6-E49/1
 Et54/1                         down           notpresent         
 Lo1                            up             up                 
 Lo2                            up             up                 
-Ma1                            up             up
+Lo3                            up             up                 
+Lo4                            up             up                 
+Ma1                            up             up                 
+Vl20                           up             up                 
+Vl22                           up             up                 
+Vl23                           up             up
 ```
 ## show ip interface brief
 
@@ -75,418 +84,44 @@ Ma1                            up             up
 Address 
 Interface        IP Address           Status     Protocol         MTU   Owner   
 ---------------- -------------------- ---------- ------------ --------- ------- 
+Ethernet1        unassigned           up         up              1500           
+Ethernet1.16     unassigned           up         up              1500           
+Ethernet1.17     unassigned           up         up              1500           
+Ethernet1.18     unassigned           up         up              1500           
+Ethernet1.19     unassigned           up         up              1500           
+Ethernet1.26     115.0.25.1/24        up         up              1500           
 Ethernet49/1     11.0.45.5/24         up         up              9214           
 Ethernet50/1     11.0.15.5/24         up         up              9214           
 Ethernet51/1     11.0.25.5/24         up         up              9214           
 Ethernet52/1     11.0.35.5/24         up         up              9214           
-Ethernet53/1     11.0.56.5/24         down       down            9214           
+Ethernet53/1     11.0.56.5/24         up         up              9214           
 Loopback1        25.0.1.5/32          up         up             65535           
 Loopback2        25.0.2.5/32          up         up             65535           
-Management1      172.28.128.69/20     up         up              1500
+Loopback3        26.0.3.5/32          up         up             65535           
+Loopback4        25.0.4.5/32          up         up             65535           
+Management1      172.28.128.69/20     up         up              1500           
+Vlan20           unassigned           up         up              1500           
+Vlan22           22.0.0.254/24        up         up              1500           
+Vlan23           23.0.0.254/24        up         up              1500
 ```
 ## show lldp neighbors
 
 ```
-Last table change time   : 1 day, 16:06:46 ago
-Number of table inserts  : 6
-Number of table deletes  : 0
+Last table change time   : 3:31:14 ago
+Number of table inserts  : 62
+Number of table deletes  : 55
 Number of table drops    : 0
 Number of table age-outs : 0
 
 Port         Neighbor Device ID                          Neighbor Port ID   TTL 
 ---------- ------------------------------------------- -------------------- --- 
 Et2          up522.sjc.aristanetworks.com                Ethernet2/1        120 
-Et49/1       ta367.sjc.aristanetworks.com                Ethernet51/1       120 
-Et50/1       smv462.sjc.aristanetworks.com               Ethernet3/1        120 
-Et51/1       cmp308.sjc.aristanetworks.com               Ethernet3/4/1      120 
-Et52/1       ta366.sjc.aristanetworks.com                Ethernet50/1       120 
+Et49/1       R4-ta367.sjc.aristanetworks.com             Ethernet51/1       120 
+Et50/1       R1-smv462.sjc.aristanetworks.com            Ethernet3/1        120 
+Et51/1       R2-cmp308.sjc.aristanetworks.com            Ethernet3/4/1      120 
+Et52/1       R3-ta366.sjc.aristanetworks.com             Ethernet50/1       120 
+Et53/1       R6-ta373.sjc.aristanetworks.com             Ethernet49/1       120 
 Ma1          r161-rack3-tor42.sjc.aristanetworks.com     Ethernet13         120
-```
-## show running-config
-
-```
-! Command: show running-config
-! device: ta368 (DCS-7280SR2K-48C6-M, EOS-4.25.1F-20348152.oslorel (engineering build))
-!
-! boot system flash:/oslo-rel-20349931.swi
-!
-prompt %H.%D{%H:%M:%S}%P
-terminal length 0
-alias agents bash ls -lrt /var/log/agents/
-alias c bash clear
-alias cc clear counters
-alias core bash ls -lrt /var/core/
-alias log bash sudo tail -f /var/log/messages
-alias ls bash ls -lrt /var/log/agents
-alias senz show interface counter error | nz
-alias shmc show int | awk '/^[A-Z]/ { intf = $1 } /, address is/ { print intf, $6 }'
-alias snz show interface counter | nz
-alias spd show port-channel %1 detail all
-alias sqnz show interface counter queue | nz
-alias srnz show interface counter rate | nz
-alias top show proc top
-!
-daemon TerminAttr
-   exec /usr/bin/TerminAttr -ingestgrpcurl=172.28.136.21:9910 -cvcompression=gzip -ingestauth=key,eossuper -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=default -taillogs
-   no shutdown
-!
-vlan internal order ascending range 4020 4090
-!
-load-interval default 5
-!
-transceiver qsfp default-mode 4x10G
-!
-service routing protocols model multi-agent
-!
-logging console debugging
-logging monitor debugging
-!
-hostname ta368
-ip name-server vrf default 172.22.60.20
-dns domain sjc.aristanetworks.com
-!
-ntp server 172.22.60.22
-!
-snmp-server community public ro
-!
-spanning-tree mode mstp
-!
-aaa authorization exec default local
-!
-aaa root secret sha512 $6$JJ5rjUhRvpvVgz9o$TgRXgL/TIGC7PTlJZ1RE6YZWAyoH0c9DRpkilLR8bQubL3LmtaKPuXAAQvmKK78PnjHrt4mrD7aT0MbBdcs.W0
-aaa authentication policy local allow-nopassword-remote-login
-!
-username admin privilege 15 role network-admin nopassword
-username arista secret sha512 $6$yij6up8NqXTUrbn2$Vr2IsqGOWgIQCLhR8o/z1aLbZIcCtzLibcsEO29TnbVJ3dU8eePEWiUwTOI7mZY3.hJshHLr4CmgzxoYaWQh8.
-username cvpadmin privilege 15 secret sha512 $6$VZQIOoRSDVGdF91/$3l4AQyO9kwEJJ4k.6JiG7AdFvQ7djVt70cGSjtB2jqroswgfsXkVtLrqQSAIeIJ/vpzbuyHbY3Pm1QC.0PXXk.
-!
-clock timezone US/Pacific
-!
-tunnel-ribs
-   tunnel-rib system-tunnel-rib
-      source-protocol static
-      source-protocol isis segment-routing preference 50
-      source-protocol bgp labeled-unicast
-      source-protocol nexthop-group
-      source-protocol rsvp-ler
-      source-protocol ldp
-!
-interface Ethernet1
-!
-interface Ethernet2
-!
-interface Ethernet3
-!
-interface Ethernet4
-!
-interface Ethernet5
-!
-interface Ethernet6
-!
-interface Ethernet7
-!
-interface Ethernet8
-!
-interface Ethernet9
-!
-interface Ethernet10
-!
-interface Ethernet11
-!
-interface Ethernet12
-!
-interface Ethernet13
-!
-interface Ethernet14
-!
-interface Ethernet15
-!
-interface Ethernet16
-!
-interface Ethernet17
-!
-interface Ethernet18
-!
-interface Ethernet19
-!
-interface Ethernet20
-!
-interface Ethernet21
-!
-interface Ethernet22
-!
-interface Ethernet23
-!
-interface Ethernet24
-!
-interface Ethernet25
-!
-interface Ethernet26
-!
-interface Ethernet27
-!
-interface Ethernet28
-!
-interface Ethernet29
-!
-interface Ethernet30
-!
-interface Ethernet31
-!
-interface Ethernet32
-!
-interface Ethernet33
-!
-interface Ethernet34
-!
-interface Ethernet35
-!
-interface Ethernet36
-!
-interface Ethernet37
-!
-interface Ethernet38
-!
-interface Ethernet39
-!
-interface Ethernet40
-!
-interface Ethernet41
-!
-interface Ethernet42
-!
-interface Ethernet43
-!
-interface Ethernet44
-!
-interface Ethernet45
-!
-interface Ethernet46
-!
-interface Ethernet47
-!
-interface Ethernet48
-!
-interface Ethernet49/1
-   description R4-E51/1
-   mtu 9214
-   no switchport
-   ip address 11.0.45.5/24
-   ipv6 enable
-   ipv6 address ::11:0:45:5/124
-   isis enable 0
-   isis network point-to-point
-   isis authentication mode md5 level-2
-   isis authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-!
-interface Ethernet50/1
-   description R1-E3/1
-   mtu 9214
-   no switchport
-   ip address 11.0.15.5/24
-   ipv6 enable
-   ipv6 address ::11:0:15:5/124
-   isis enable 0
-   isis network point-to-point
-   isis authentication mode md5 level-2
-   isis authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-!
-interface Ethernet51/1
-   description R2-E3/4/1
-   mtu 9214
-   no switchport
-   ip address 11.0.25.5/24
-   ipv6 enable
-   ipv6 address ::11:0:25:5/124
-   isis enable 0
-   isis network point-to-point
-   isis authentication mode md5 level-2
-   isis authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-!
-interface Ethernet52/1
-   description R3-E50/1
-   mtu 9214
-   no switchport
-   ip address 11.0.35.5/24
-   ipv6 enable
-   ipv6 address ::11:0:35:5/124
-   isis enable 0
-   isis network point-to-point
-   isis authentication mode md5 level-2
-   isis authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-!
-interface Ethernet53/1
-   description R6-E49/1
-   mtu 9214
-   no switchport
-   ip address 11.0.56.5/24
-   ipv6 enable
-   ipv6 address ::11:0:56:5/124
-   isis enable 0
-   isis network point-to-point
-   isis authentication mode md5 level-2
-   isis authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-!
-interface Ethernet54/1
-!
-interface Loopback1
-   ip address 25.0.1.5/32
-   ipv6 address ::25:0:1:5/128
-   isis enable 0
-   isis passive
-!
-interface Loopback2
-   ip address 25.0.2.5/32
-   ipv6 address ::25:0:2:5/128
-   node-segment ipv4 index 54
-   node-segment ipv6 index 56
-   isis enable 0
-   isis passive
-!
-interface Management1
-   ip address 172.28.128.69/20
-!
-ip access-list GNMI
-   10 permit tcp any any eq gnmi
-!
-ip routing
-!
-ip prefix-list LDP-FECs
-   seq 10 permit 25.0.2.1/32
-   seq 20 permit 25.0.2.2/32
-   seq 30 permit 25.0.2.3/32
-   seq 40 permit 25.0.2.4/32
-   seq 50 permit 25.0.2.5/32
-   seq 60 permit 25.0.2.6/32
-!
-ipv6 unicast-routing
-!
-ip route 10.80.0.0/12 172.28.128.1
-ip route 10.240.0.0/14 172.28.128.1
-ip route 172.16.0.0/12 172.28.128.1
-!
-mpls ip
-!
-mpls ldp
-   router-id 25.0.2.5
-   transport-address interface Loopback2
-   fec filter prefix-list LDP-FECs
-   no shutdown
-!
-mpls icmp fragmentation-needed tunneling
-mpls icmp ttl-exceeded tunneling
-!
-router bgp 64000
-   router-id 25.0.1.5
-   bgp route-reflector preserve-attributes
-   maximum-paths 4 ecmp 4
-   neighbor MP-BGP-Clients peer group
-   neighbor MP-BGP-Clients remote-as 64000
-   neighbor MP-BGP-Clients next-hop-unchanged
-   neighbor MP-BGP-Clients update-source Loopback2
-   neighbor MP-BGP-Clients route-reflector-client
-   neighbor MP-BGP-Clients send-community extended
-   neighbor MP-BGP-Clients maximum-routes 0
-   neighbor v4_iBGP-Clients peer group
-   neighbor v4_iBGP-Clients remote-as 64000
-   neighbor v4_iBGP-Clients update-source Loopback1
-   neighbor v4_iBGP-Clients route-reflector-client
-   neighbor v4_iBGP-Clients maximum-routes 0
-   neighbor v6_iBGP-Clients peer group
-   neighbor v6_iBGP-Clients remote-as 64000
-   neighbor v6_iBGP-Clients update-source Loopback1
-   neighbor v6_iBGP-Clients route-reflector-client
-   neighbor v6_iBGP-Clients maximum-routes 0
-   neighbor 25.0.1.1 peer group v4_iBGP-Clients
-   neighbor 25.0.1.2 peer group v4_iBGP-Clients
-   neighbor 25.0.1.3 peer group v4_iBGP-Clients
-   neighbor 25.0.1.4 peer group v4_iBGP-Clients
-   neighbor 25.0.1.6 peer group v4_iBGP-Clients
-   neighbor 25.0.2.1 peer group MP-BGP-Clients
-   neighbor 25.0.2.2 peer group MP-BGP-Clients
-   neighbor 25.0.2.3 peer group MP-BGP-Clients
-   neighbor 25.0.2.4 peer group MP-BGP-Clients
-   neighbor 25.0.2.6 peer group MP-BGP-Clients
-   neighbor ::25:0:1:1 peer group v6_iBGP-Clients
-   neighbor ::25:0:1:2 peer group v6_iBGP-Clients
-   neighbor ::25:0:1:3 peer group v6_iBGP-Clients
-   neighbor ::25:0:1:4 peer group v6_iBGP-Clients
-   neighbor ::25:0:1:6 peer group v6_iBGP-Clients
-   redistribute connected
-   !
-   address-family evpn
-      neighbor default encapsulation mpls next-hop-self source-interface Loopback2
-      neighbor MP-BGP-Clients activate
-   !
-   address-family ipv4
-      no neighbor MP-BGP-Clients activate
-      neighbor v4_iBGP-Clients activate
-      no neighbor v6_iBGP-Clients activate
-   !
-   address-family ipv4 labeled-unicast
-      neighbor MP-BGP-Clients activate
-   !
-   address-family ipv6
-      neighbor v6_iBGP-Clients activate
-   !
-   address-family vpn-ipv4
-      neighbor MP-BGP-Clients activate
-      no neighbor v4_iBGP-Clients activate
-      neighbor default encapsulation mpls next-hop-self source-interface Loopback2
-   !
-   address-family vpn-ipv6
-      neighbor MP-BGP-Clients activate
-      neighbor default encapsulation mpls next-hop-self source-interface Loopback2
-!
-router isis 0
-   net 49.0001.0250.0000.1005.00
-   is-hostname R5
-   router-id ipv4 25.0.1.5
-   is-type level-2
-   lsp purge origination-identification
-   log-adjacency-changes
-   timers local-convergence-delay protected-prefixes
-   spf-interval 1 150 150
-   timers lsp refresh 65000
-   timers lsp min-remaining-lifetime 65535
-   authentication mode md5 level-2
-   graceful-restart
-   graceful-restart t2 level-2 300
-   graceful-restart restart-hold-time 300
-   authentication key 7 j4Dubk9Vcnjaq8//RS41uw== level-2
-   !
-   address-family ipv4 unicast
-      bfd all-interfaces
-      fast-reroute ti-lfa mode node-protection
-   !
-   address-family ipv6 unicast
-      bfd all-interfaces
-      fast-reroute ti-lfa mode node-protection
-   !
-   segment-routing mpls
-      no shutdown
-      adjacency-segment allocation sr-peers backup-eligible
-!
-banner login
-------------------------------------------------------------------------------------------
-
-                     This device is in use for the Orange POC
-
-  Please contact dpowders@arista.com before making any changes
-
--------------------------------------------------------------------------------------------
-EOF
-!
-management api http-commands
-   protocol http
-   no shutdown
-!
-management api gnmi
-   transport grpc def
-      ip access-group GNMI
-   provider eos-native
-!
-end
 ```
 ## show version
 
@@ -497,12 +132,12 @@ Serial number: JAS18070012
 Hardware MAC address: 7483.ef73.56db
 System MAC address: 7483.ef73.56db
 
-Software image version: 4.25.1F-20348152.oslorel (engineering build)
+Software image version: 4.25.1F
 Architecture: i686
-Internal build version: 4.25.1F-20348152.oslorel
-Internal build ID: 21839e6b-0fd0-4fdc-86f1-919012c49df3
+Internal build version: 4.25.1F-20001546.4251F
+Internal build ID: 31358597-3f9d-49cf-b0a5-c16d16d21617
 
-Uptime: 0 weeks, 1 days, 16 hours and 14 minutes
-Total memory: 32813280 kB
-Free memory: 29766004 kB
+Uptime: 1 weeks, 2 days, 15 hours and 7 minutes
+Total memory: 32822600 kB
+Free memory: 29032508 kB
 ```

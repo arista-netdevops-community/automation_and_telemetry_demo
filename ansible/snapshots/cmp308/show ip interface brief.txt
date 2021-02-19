@@ -1,18 +1,18 @@
 Address 
-Interface           IP Address           Status    Protocol       MTU   Owner   
-------------------- -------------------- --------- ----------- -------- ------- 
-Ethernet3/1/1       11.0.12.2/24         up        up            9214           
-Ethernet3/2/1       11.0.23.2/24         up        up            9214           
-Ethernet3/3/1       11.0.24.2/24         up        up            9214           
-Ethernet3/4/1       11.0.25.2/24         up        up            9214           
-Ethernet3/5/1       11.0.26.2/24         up        up            9214           
-Ethernet3/10/1      unassigned           up        up            1500           
-Ethernet3/10/1.11   121.0.0.1/20         up        up            1500           
-Ethernet3/10/1.12   122.0.0.1/30         up        up            1500           
-Ethernet3/10/1.13   123.0.0.1/30         up        up            1500           
-Ethernet3/10/1.14   124.0.0.1/30         up        up            1500           
-Ethernet3/10/1.15   125.0.0.1/30         up        up            1500           
-Loopback1           25.0.1.2/32          up        up           65535           
-Loopback2           25.0.2.2/32          up        up           65535           
-Management1/1       172.28.135.145/20    up        up            1500           
-Management1/2       unassigned           down      down          1500
+Interface           IP Address          Status       Protocol      MTU  Owner   
+------------------- ------------------- ------------ ---------- ------- ------- 
+Ethernet3/1/1       11.0.12.2/24        up           up           9214          
+Ethernet3/2/1       11.0.23.2/24        up           up           9214          
+Ethernet3/3/1       11.0.24.2/24        admin down   down         9214          
+Ethernet3/4/1       11.0.25.2/24        up           up           9214          
+Ethernet3/5/1       11.0.26.2/24        up           up           9214          
+Ethernet3/10/1      unassigned          up           up           1500          
+Ethernet3/10/1.11   121.0.0.1/30        up           up           1500          
+Ethernet3/10/1.12   122.0.0.1/30        up           up           1500          
+Ethernet3/10/1.13   123.0.0.1/30        up           up           1500          
+Ethernet3/10/1.14   124.0.0.1/30        up           up           1500          
+Ethernet3/10/1.15   125.0.0.1/30        up           up           1500          
+Loopback1           25.0.1.2/32         up           up          65535          
+Loopback2           25.0.2.2/32         up           up          65535          
+Management1/1       172.28.135.145/20   up           up           1500          
+Management1/2       unassigned          down         down         1500

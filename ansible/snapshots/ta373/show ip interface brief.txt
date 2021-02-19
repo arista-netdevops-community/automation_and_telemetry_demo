@@ -1,9 +1,22 @@
 Address 
-Interface       IP Address          Status        Protocol        MTU   Owner   
---------------- ------------------- ------------- ----------- --------- ------- 
-Ethernet49/1    11.0.56.6/24        admin down    down           9214           
-Ethernet50/1    11.0.26.6/24        up            up             9214           
-Ethernet51/1    11.0.36.6/24        admin down    down           9214           
-Loopback1       25.0.1.6/32         up            up            65535           
-Loopback2       25.0.2.6/32         up            up            65535           
-Management1     172.28.134.80/20    up            up             1500
+Interface        IP Address           Status     Protocol         MTU   Owner   
+---------------- -------------------- ---------- ------------ --------- ------- 
+Ethernet1        unassigned           up         up              9000           
+Ethernet1.16     unassigned           up         up              9000           
+Ethernet1.17     unassigned           up         up              9000           
+Ethernet1.18     unassigned           up         up              9000           
+Ethernet1.19     unassigned           up         up              9000           
+Ethernet1.25     125.25.25.1/24       up         up              9000           
+Ethernet1.26     115.0.15.1/24        up         up              9000           
+Ethernet49/1     11.0.56.6/24         up         up              9214           
+Ethernet50/1     11.0.26.6/24         up         up              9214           
+Ethernet51/1     11.0.36.6/24         up         up              9214           
+Loopback1        25.0.1.6/32          up         up             65535           
+Loopback2        25.0.2.6/32          up         up             65535           
+Loopback3        25.0.3.6/32          up         up             65535           
+Loopback4        25.0.4.6/32          up         up             65535           
+Management1      172.28.134.80/20     up         up              1500           
+Vlan20           unassigned           up         up              1500           
+Vlan21           unassigned           up         up              1500           
+Vlan22           25.0.0.253/24        up         up              1500           
+Vlan23           23.0.0.253/24        up         up              1500
