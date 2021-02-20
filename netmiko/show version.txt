@@ -8,6 +8,6 @@ Architecture:           i686
 Internal build version: 4.23.2F-15405360.4232F
 Internal build ID:      85bd3770-9843-4dbb-b95b-cd95eb743c5b
 
-Uptime:                 0 weeks, 1 days, 13 hours and 1 minutes
+Uptime:                 3 weeks, 0 days, 18 hours and 47 minutes
 Total memory:           3990936 kB
-Free memory:            2190972 kB
+Free memory:            2175172 kB
