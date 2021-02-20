@@ -1,0 +1,48 @@
+---
+version: "3"
+
+networks:
+ tig:
+
+services:
+ influxdb:
+   container_name: influxdb
+   ports:
+     - 8086:8086
+     - 8083:8083
+   networks:
+     - tig
+   image: influxdb:1.8.0
+
+ telegraf:
+   container_name: telegraf
+   image: telegraf:9ed9a632
+   networks:
+     - tig
+   volumes:
+     - $PWD/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+     - $PWD/telegraf.d:/etc/telegraf/telegraf.d
+   command: ["telegraf", "--config-directory", "/etc/telegraf/telegraf.d"]
+   depends_on:
+     - influxdb
+
+ grafana:
+   container_name: grafana
+   environment:
+     GF_SECURITY_ADMIN_USER: {{ grafana.username }}
+     GF_SECURITY_ADMIN_PASSWORD: {{ grafana.password }}
+     GF_INSTALL_PLUGINS: natel-discrete-panel
+     GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+   ports:
+     - '{{ grafana.http_port }}:3000'
+   networks:
+     - tig
+   image: grafana/grafana:7.0.3
+   volumes:
+      - $PWD/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - $PWD/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+      - $PWD/dashboards:/var/tmp/dashboards
+   depends_on:
+     - influxdb
+
+

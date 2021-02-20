@@ -1,0 +1,27 @@
+grafana: 
+  username: arista
+  password: arista
+  http_port: 3000
+telegraf:
+  gnmi:
+    username: arista
+    password: arista
+    port: 6030 
+  snmp:
+    community: public 
+    port: 161 
+  devices:
+    cmp308:
+      ip: 172.28.135.145
+    smv462:
+      ip: 172.28.134.246
+    ta366:
+      ip: 172.28.135.38
+    ta367:
+      ip: 172.28.135.39
+    ta368:
+      ip: 172.28.128.69
+    ta373:
+      ip: 172.28.134.80
+    up522:
+      ip: 172.28.132.154
