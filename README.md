@@ -18,7 +18,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
     - [Clone the openconfig repository](#clone-the-openconfig-repository)
     - [Copy all the YANG files from OpenConfig to the yang_modules directory](#copy-all-the-yang-files-from-openconfig-to-the-yang_modules-directory)
     - [Move to the yang_modules directory](#move-to-the-yang_modules-directory)
-  - [Validate yang modules](#validate-yang-modules)
+  - [Validate YANG modules](#validate-yang-modules)
   - [Convert a YANG module into an equivalent YIN module](#convert-a-yang-module-into-an-equivalent-yin-module)
   - [Generate a tree representation of YANG modules for quick visualization](#generate-a-tree-representation-of-yang-modules-for-quick-visualization)
 - [PyangBind](#pyangbind)
@@ -34,10 +34,11 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI Subscribe RPC to EOS native paths](#gnmi-subscribe-rpc-to-eos-native-paths)
   - [gNMI and EOS commands](#gnmi-and-eos-commands)
 - [pyGNMI](#pygnmi)
-  - [Get RPC](#get-rpc)
-  - [Subscribe RPC](#subscribe-rpc)
+  - [gNMI Get RPC](#gnmi-get-rpc-1)
+  - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
 - [SNMP](#snmp)
 - [TIG stack](#tig-stack)
+  - [Telegraf plugins](#telegraf-plugins)
   - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
   - [Update the required input for the TIG stack](#update-the-required-input-for-the-tig-stack)
   - [Start the TIG stack](#start-the-tig-stack)
@@ -117,7 +118,6 @@ cd automation_and_telemetry_workshop
 ```
 
 ## Configure EOS devices
-
 ### Configure all EOS devices for gNMI and SNMP and eAPI
 ```
 snmp-server community public ro
@@ -148,10 +148,12 @@ management api models
    provider smash
       path routing/isis/lsdb
 ```
+
 ```
 dev(config-router-isis)#sho active  | grep pub
    database publish
 ```
+
 Then restart octa on that swicth
 ```
 bash sudo killall Octa
@@ -159,7 +161,9 @@ bash sudo killall Octa
 
 ## Netmiko
 
-Netmiko is a python library to simplify SSH connections to network devices
+Netmiko is a python library to simplify SSH connections to network devices.
+
+So we can use it even when API is disabled on EOS devices (default). As example we can use it to enable API on EOS devices.
 
 From the root of this repository, move to the [netmiko directory](netmiko)
 ```
@@ -167,16 +171,17 @@ cd netmiko
 ```
 ```
 python3 collect_show_commands.py
-ls
 more "show version.txt"
 more "show ip interface brief.txt"
 ```
 ```
 more config.txt
-python3 configure_from_file.py 
+python3 configure_from_file.py
 ```
 
 ## eAPI (EOS API)
+
+Once the API is enabled, the switch accepts HTTP(S) requests containing a list of EOS commands, and responds with machine-readable output serialized in JSON (served over HTTP or HTTPS).
 
 From the root of this repository, move to the [eAPI directory](eapi)
 ```
@@ -188,6 +193,8 @@ python3 test2.py
 ```
 
 ## Ansible
+
+We will use the ansible module [eos_command](https://docs.ansible.com/ansible/latest/collections/arista/eos/eos_command_module.html) and eAPI to run show commands on EOS devices.
 
 From the root of the repository, move to the [Ansible directory](ansible)
 ```
@@ -248,6 +255,7 @@ pip3 freeze | grep pyang
 ```
 ### Get YANG modules
 
+We need YANG files.
 #### Clone the openconfig repository
 
 From the root of this repository:
@@ -257,7 +265,6 @@ git clone https://github.com/openconfig/public.git
 ```
 ls public
 ```
-
 #### Copy all the YANG files from OpenConfig to the yang_modules directory
 
 ```
@@ -265,20 +272,19 @@ cp public/release/models/*.yang yang_modules/.
 cp -R public/release/models/*/*.yang yang_modules/.
 cp public/third_party/ietf/*.yang yang_modules/.
 ```
-
 #### Move to the yang_modules directory
+
+It has all the YANG files published on the OpenConfig repository
 ```
 cd yang_modules/
 ls
 ```
-
-### Validate yang modules
+### Validate YANG modules
 
 ```
 pyang openconfig-bgp.yang
 pyang openconfig-interfaces.yang
 ```
-
 ### Convert a YANG module into an equivalent YIN module
 
 A YANG module can be translated into an XML syntax called YIN. The translated module is called a YIN module. The YANG and YIN formats contain equivalent information using different notations: YIN is YANG in XML. A YANG module can be translated into YIN syntax without losing any information.
@@ -294,7 +300,9 @@ ls *.yin
 ```
 pyang -f tree openconfig-interfaces.yang
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
-pyang openconfig-interfaces.yang -f tree  --tree-depth=4
+pyang openconfig-interfaces.yang -f tree --tree-depth=4
+pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors/neighbor/config
+pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors/neighbor/state --tree-depth=5
 ```
 
 ## PyangBind
@@ -312,7 +320,6 @@ From the root of this repository:
 ```
 cd yang_modules/
 ```
-
 ### Generate a Python module from a YANG module
 
 ```
@@ -322,7 +329,6 @@ The above command generated the python module oc_bgp.py from the openconfig-bgp.
 ```
 ls oc_bgp.py
 ```
-
 ### Use the new python module to generate OpenConfig configuration
 
 The file [pyangbind_demo.py](yang_modules/pyangbind_demo.py) uses the new python module oc_bgp.py to generate this [OpenConfig configuration file](/gnmi/test.json)
@@ -333,7 +339,7 @@ python3 pyangbind_demo.py
 ```
 more ../gnmi/test.json
 ```
-This configuration will be loaded later on a switch using gNMI.
+This configuration will be loaded later on a switch using the [gNMI Set RPC](#gnmi-set-rpc--pyangbind-output)
 
 ## gNMIc
 
@@ -347,8 +353,7 @@ From the root of this repository, move to the [gNMI directory](gnmi)
 cd gnmi/
 ```
 
-Lets use the following RPC: Capabilities, Get, Subscribe, Set.
-
+Lets use the following gNMI RPC: Capabilities, Get, Set, Subscribe.
 ### gNMI Capabilities RPC
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
@@ -456,11 +461,11 @@ From the root of this repository, move to the [pygnmi directory](pygnmi)
 ```
 cd pygnmi
 ```
-### Get RPC
+### gNMI Get RPC
 ```
 python3 get.py
 ```
-### Subscribe RPC
+### gNMI Subscribe RPC
 ```
 python3 sub.py
 ```
@@ -472,16 +477,30 @@ snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 ## TIG stack
 
-A TIG stack uses:
-   - Telegraf to collect data and to write the collected data in InfluxDB.
-   - InfluxDB to store the data collected.
-   - Grafana to visualize the data stored in InfluxDB.
-
-### Telegraf and gNMI timestamps
-
 Telegraf is an open source collector written in GO.
 Telegraf collects data and writes them into a database.
 It is plugin-driven (it has input plugins, output plugins, ...)
+
+InfluxDB is an open source time series database written in GO.
+
+Grafana is an open source tool used to visualize time series data.
+It supports InfluxDB and other backends.
+It runs as a web application.
+It is written in GO.
+
+A TIG stack uses:
+   - Telegraf to collect data and to write the collected data in InfluxDB.
+   - InfluxDB to store the data collected.
+   - Grafana to visualize the data stored in InfluxDB
+
+### Telegraf plugins
+
+This Telegraf uses the following plugins:
+- gnmi input plugin
+- snmp input plugin
+- Enum processor plugin
+- influxdb output plugin
+### Telegraf and gNMI timestamps
 
 Use this telegraf fork in order to have Telegraf to overwrite the gnmi timestamp by its local time
 more details https://gist.github.com/ksator/e36a1be086da6c2239c2c2c0eb9fe300
@@ -505,8 +524,8 @@ Update the [input.yml](TIG/input.yml) with the devices details:
 vi input.yml
 ```
 Execute [this python script](TIG/render.py) to generate:
-- the [docker-compose.yml file](TIG/docker-compose.yml)
-- a telegraf configuration file for each device in the directory [telegraf.d](TIG/telegraf.d)
+- the [docker-compose.yml file](TIG/docker-compose.yml) that starts/stops the TIG stack
+- a Telegraf configuration file for each EOS device in the directory [telegraf.d](TIG/telegraf.d)
 ```
 python3 render.py
 more docker-compose.yml
@@ -527,8 +546,6 @@ docker logs telegraf
 ```
 
 ### Query influxdb from CLI
-
-InfluxDB is an open source time series database written in GO.
 
 Start an interactive session
 
@@ -599,11 +616,6 @@ exit()
 ```
 
 ### Grafana GUI
-
-Grafana is an open source tool used to visualize time series data.
-It supports InfluxDB and other backends.
-It runs as a web application.
-It is written in GO.
 
 We can now use the Grafana GUI.
 The default username and password are admin/admin, but we changed them to arista/arista.
