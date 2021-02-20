@@ -36,16 +36,18 @@ This repository has Network automation demo and telemetry demo with EOS devices
 - [pyGNMI](#pygnmi)
   - [gNMI Get RPC](#gnmi-get-rpc-1)
   - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
-- [SNMP](#snmp)
 - [TIG stack](#tig-stack)
   - [Telegraf plugins](#telegraf-plugins)
   - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
+  - [Check SNMP](#check-snmp)
   - [Update the required input for the TIG stack](#update-the-required-input-for-the-tig-stack)
   - [Start the TIG stack](#start-the-tig-stack)
   - [Check Telegraf logs](#check-telegraf-logs)
+  - [Check Telegraf configuration](#check-telegraf-configuration)
   - [Query influxdb from CLI](#query-influxdb-from-cli)
   - [Query influxdb from python](#query-influxdb-from-python)
-  - [Grafana GUI](#grafana-gui)
+  - [Check Grafana](#check-grafana)
+  - [Use Grafana GUI](#use-grafana-gui)
   - [Stop the TIG stack](#stop-the-tig-stack)
 
 ## Set up an automation VM
@@ -469,12 +471,6 @@ python3 get.py
 ```
 python3 sub.py
 ```
-
-## SNMP
-```
-snmpwalk --version
-snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
-```
 ## TIG stack
 
 Telegraf is an open source collector written in GO.
@@ -513,6 +509,16 @@ cd telegraf
 make docker-image
 docker images
 ```
+### Check SNMP
+
+We already tested gNMI.
+
+Let's test SNMP:
+```
+snmpwalk --version
+snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
+```
+
 ### Update the required input for the TIG stack
 
 From the root of this repository, move to the [TIG](TIG) directory
@@ -543,6 +549,17 @@ docker images
 ### Check Telegraf logs
 ```
 docker logs telegraf
+```
+### Check Telegraf configuration
+
+```
+docker exec -it telegraf bash
+```
+```
+root@d35fed5663c0:/# ls /etc/telegraf
+root@d35fed5663c0:/# more /etc/telegraf/telegraf.conf
+root@d35fed5663c0:/# ls /etc/telegraf/telegraf.d
+root@d35fed5663c0:/# exit
 ```
 
 ### Query influxdb from CLI
@@ -614,16 +631,33 @@ for point in points:
 
 exit()
 ```
+### Check Grafana
 
-### Grafana GUI
+The datasource is already configured. It uses InfluxDB.
+
+We loaded ready to use dashboards.
+
+We loaded a plugin.
+```
+docker exec -it grafana bash
+```
+```
+bash-5.0$ more /etc/grafana/provisioning/datasources/datasource.yaml
+bash-5.0$ more /etc/grafana/provisioning/dashboards/dashboards.yaml
+bash-5.0$ ls /var/tmp/dashboards/
+bash-5.0$ ls /var/lib/grafana/plugins
+bash-5.0$ exit
+```
+
+### Use Grafana GUI
 
 We can now use the Grafana GUI.
 The default username and password are admin/admin, but we changed them to arista/arista.
-The datasource is already configured. It uses InfluxDB.
-We loaded ready to use dashboards.
+The default port is 3000.
 
 http://IP:3000/login
 
+We can use the dashboards we already loaded or we can create new dashborads querying influxDB.
 ### Stop the TIG stack
 ```
 docker-compose down
