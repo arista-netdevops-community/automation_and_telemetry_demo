@@ -23,7 +23,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [Generate a tree representation of YANG modules for quick visualization](#generate-a-tree-representation-of-yang-modules-for-quick-visualization)
 - [PyangBind](#pyangbind)
   - [About PyangBind](#about-pyangbind)
-  - [Convert a YANG module into a Python module](#convert-a-yang-module-into-a-python-module)
+  - [Generate a Python module from a YANG module](#generate-a-python-module-from-a-yang-module)
   - [Use the new python module to generate OpenConfig configuration](#use-the-new-python-module-to-generate-openconfig-configuration)
 - [gNMIc](#gnmic)
   - [gNMI Capabilities RPC](#gnmi-capabilities-rpc)
@@ -69,8 +69,7 @@ Now you can run these commands to update the VM and install tools
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
-pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb
-pip3 install pygnmi
+pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb pygnmi
 ```
 Check
 ```
@@ -187,7 +186,6 @@ python3 test2.py
 From the root of the repository, move to the [Ansible directory](ansible)
 ```
 cd ansible
-ls
 ```
 ### Update the inventory
 
@@ -206,7 +204,7 @@ Update the list of `show commands` you want to collect (this is an ansible varia
 ```
 ansible-playbook playbooks/snapshots.yml
 ```
-The output of the `show commands` is saved in the directory [ansible/snaphots](ansible/snapshots)
+The output of the `show commands` is saved in the directory [snaphots](ansible/snapshots)
 ```
 tree snapshots
 ```
@@ -309,22 +307,23 @@ From the root of this repository:
 cd yang_modules/
 ```
 
-### Convert a YANG module into a Python module
+### Generate a Python module from a YANG module
 
 ```
 pyang --plugindir $HOME/.local/lib/python3.6/site-packages/pyangbind/plugin/ -f pybind -o oc_bgp.py openconfig-bgp.yang
 ```
+The above command generated the python module oc_bgp.py from the openconfig-bgp.yang file
 ```
 ls oc_bgp.py
 ```
 
 ### Use the new python module to generate OpenConfig configuration
 
+The file [pyangbind_demo.py](yang_modules/pyangbind_demo.py) uses the new python module oc_bgp.py to generate this [OpenConfig configuration file](/gnmi/test.json)
 ```
 more pyangbind_demo.py
 python3 pyangbind_demo.py
 ```
-It generated this [OpenConfig configuration file](/gnmi/test.json)
 ```
 more ../gnmi/test.json
 ```
@@ -462,6 +461,7 @@ python3 sub.py
 
 ## SNMP
 ```
+snmpwalk --version
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
 ## TIG
