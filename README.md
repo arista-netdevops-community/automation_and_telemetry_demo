@@ -37,9 +37,9 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [Get RPC](#get-rpc)
   - [Subscribe RPC](#subscribe-rpc)
 - [SNMP](#snmp)
-- [TIG](#tig)
+- [TIG stack](#tig-stack)
   - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
-  - [About this TIG stack setup](#about-this-tig-stack-setup)
+  - [Update the required input for the TIG stack](#update-the-required-input-for-the-tig-stack)
   - [Start the TIG stack](#start-the-tig-stack)
   - [Check Telegraf logs](#check-telegraf-logs)
   - [Query influxdb from CLI](#query-influxdb-from-cli)
@@ -464,7 +464,7 @@ python3 sub.py
 snmpwalk --version
 snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
 ```
-## TIG
+## TIG stack
 
 A TIG stack uses:
    - Telegraf to collect data and to write the collected data in InfluxDB.
@@ -488,18 +488,24 @@ cd telegraf
 make docker-image
 docker images
 ```
-### About this TIG stack setup
+### Update the required input for the TIG stack
 
 From the root of this repository, move to the [TIG](TIG) directory
 ```
 cd TIG
 ```
+Update the [input.yml](TIG/input.yml) with the devices details:
 ```
+vi input.yml
+```
+Execute [this python script](TIG/render.py) to generate:
+- the [docker-compose.yml file](TIG/docker-compose.yml)
+- a telegraf configuration file for each device in the directory [telegraf.d](TIG/telegraf.d)
+```
+python3 render.py
 more docker-compose.yml
 ls telegraf.d/
-ls dashboards
 ```
-
 ### Start the TIG stack
 ```
 docker-compose up -d
@@ -594,7 +600,7 @@ It runs as a web application.
 It is written in GO.
 
 We can now use the Grafana GUI.
-The default username and password are admin/admin, but we changed them to arista/arista
+The default username and password are admin/admin, but we changed them to arista/arista. 
 The datasource is already configured. It uses InfluxDB.
 We loaded ready to use dashboards.
 
