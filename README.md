@@ -169,6 +169,10 @@ cd netmiko
 python3 test.py
 more "show version.txt"
 ```
+```
+more config.txt
+python3 configure.py
+```
 
 ## eAPI (EOS API)
 
@@ -600,7 +604,7 @@ It runs as a web application.
 It is written in GO.
 
 We can now use the Grafana GUI.
-The default username and password are admin/admin, but we changed them to arista/arista. 
+The default username and password are admin/admin, but we changed them to arista/arista.
 The datasource is already configured. It uses InfluxDB.
 We loaded ready to use dashboards.
 
