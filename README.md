@@ -166,12 +166,14 @@ From the root of this repository, move to the [netmiko directory](netmiko)
 cd netmiko
 ```
 ```
-python3 test.py
+python3 collect_show_commands.py
+ls
 more "show version.txt"
+more "show ip interface brief.txt"
 ```
 ```
 more config.txt
-python3 configure.py
+python3 configure_from_file.py 
 ```
 
 ## eAPI (EOS API)
