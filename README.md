@@ -2,9 +2,10 @@ This repository has Network automation demo and telemetry demo with EOS devices
 
 **Table of content**
 - [Set up an automation VM](#set-up-an-automation-vm)
+- [Clone this repository](#clone-this-repository)
 - [Configure EOS devices](#configure-eos-devices)
   - [Configure all EOS devices for gNMI and SNMP and eAPI](#configure-all-eos-devices-for-gnmi-and-snmp-and-eapi)
-  - [Configure one single EOS device for ISIS LSDB streaming](#configure-one-single-eos-device-for-isis-lsdb-streaming)
+  - [Configure one EOS device for ISIS LSDB streaming](#configure-one-eos-device-for-isis-lsdb-streaming)
 - [Netmiko](#netmiko)
 - [eAPI (EOS API)](#eapi-eos-api)
 - [Ansible](#ansible)
@@ -52,7 +53,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
 
 ## Set up an automation VM
 
-Ubuntu VM
+We are using this Ubuntu VM for this workshop:
 ```
 $ lsb_release -a
 No LSB modules are available.
@@ -61,7 +62,7 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-Change DNS to 8.8.8.8 so you can resolve domain names
+Use the name server IP address 8.8.8.8 so you can resolve domain names
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
@@ -83,7 +84,7 @@ $ python3 -V
 Python 3.6.9
 ```
 
-If `ansible --version` or ` pyang --version` doesnt work, check the PATH env variable:
+If `ansible --version` or ` pyang --version` doesnt work, check the PATH environment variable:
 ```
 echo $PATH
 ```
@@ -91,7 +92,7 @@ Try
 ```
 /home/arista/.local/bin/ansible --version
 ```
-Then update accordingly the PATH env variable:
+Then update accordingly the PATH environment variable:
 ```
 export PATH="$PATH:/home/arista/.local/bin"
 echo $PATH
@@ -109,9 +110,9 @@ Then install also:
    wget https://github.com/karimra/gnmic/raw/master/install.sh
    sudo bash install.sh
    ```
+## Clone this repository
 
 Then clone this repository
-
 ```
 git clone https://github.com/ksator/automation_and_telemetry_workshop.git
 ```
@@ -144,7 +145,7 @@ management api http-commands
    protocol http
    no shutdown
 ```
-### Configure one single EOS device for ISIS LSDB streaming
+### Configure one EOS device for ISIS LSDB streaming
 ```
 management api models
    provider smash
@@ -422,8 +423,8 @@ Request to the target to stream values for an EOS native path
 ```
 gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
-ISIS LSDB:
 
+To stream the ISIS LSDB:
 ```
 more gnmic_conf.yml
 ```
