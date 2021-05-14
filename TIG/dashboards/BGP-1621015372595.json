@@ -15,10 +15,466 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1610814241131,
+  "id": 1,
+  "iteration": 1621015349821,
   "links": [],
   "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 15,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$dev - IPv4 - $tag_neighbor_address",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "neighbor_address"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "openconfig_bgp",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "neighbors/neighbor/afi_safis/afi_safi/state/prefixes/received"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$VRF$/"
+            },
+            {
+              "condition": "AND",
+              "key": "afi_safi_name",
+              "operator": "=",
+              "value": "IPV4_UNICAST"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "$dev  - BGP IPv4 prefixes in VRF $VRF",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:4474",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:4475",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 16,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$dev - IPv6- $tag_neighbor_address",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "neighbor_address"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "openconfig_bgp",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "neighbors/neighbor/afi_safis/afi_safi/state/prefixes/received"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$VRF$/"
+            },
+            {
+              "condition": "AND",
+              "key": "afi_safi_name",
+              "operator": "=",
+              "value": "IPV6_UNICAST"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "$dev  - BGP IPv6 prefixes in VRF $VRF",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:4474",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:4475",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 17,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$dev - EVPN - $tag_neighbor_address",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "neighbor_address"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "openconfig_bgp",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "neighbors/neighbor/afi_safis/afi_safi/state/prefixes/received"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$VRF$/"
+            },
+            {
+              "condition": "AND",
+              "key": "afi_safi_name",
+              "operator": "=",
+              "value": "L2VPN_EVPN"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "$dev  - BGP EVPN prefixes in VRF $VRF",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:4474",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:4475",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
     {
       "datasource": null,
       "description": "",
@@ -48,7 +504,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 16
       },
       "id": 4,
       "options": {
@@ -453,7 +909,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 23
       },
       "id": 6,
       "options": {
@@ -595,7 +1051,7 @@
         "h": 19,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 30
       },
       "highlightOnMouseover": true,
       "id": 12,
@@ -828,7 +1284,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 49
       },
       "highlightOnMouseover": false,
       "id": 13,
@@ -1076,7 +1532,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 56
       },
       "hiddenSeries": false,
       "id": 2,
@@ -1243,7 +1699,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 56
       },
       "hiddenSeries": false,
       "id": 10,
@@ -1401,7 +1857,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 50
+        "y": 66
       },
       "hiddenSeries": false,
       "id": 11,
@@ -1560,7 +2016,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 50
+        "y": 66
       },
       "hiddenSeries": false,
       "id": 8,
@@ -1695,8 +2151,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "DC1-LEAF1A",
-          "value": "DC1-LEAF1A"
+          "text": "leaf1",
+          "value": "leaf1"
         },
         "datasource": "influxdb",
         "definition": "SHOW TAG VALUES FROM \"openconfig_bgp\" WITH KEY=\"device\"",
@@ -1708,6 +2164,58 @@
         "options": [],
         "query": "SHOW TAG VALUES FROM \"openconfig_bgp\" WITH KEY=\"device\"",
         "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "default",
+          "value": "default"
+        },
+        "datasource": "influxdb",
+        "definition": "SHOW TAG VALUES FROM \"openconfig_bgp\" WITH KEY=\"name\"",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "VRF",
+        "options": [
+          {
+            "selected": false,
+            "text": "Tenant_A_APP_Zone",
+            "value": "Tenant_A_APP_Zone"
+          },
+          {
+            "selected": false,
+            "text": "Tenant_A_WEB_Zone",
+            "value": "Tenant_A_WEB_Zone"
+          },
+          {
+            "selected": false,
+            "text": "Tenant_B_APP_Zone",
+            "value": "Tenant_B_APP_Zone"
+          },
+          {
+            "selected": false,
+            "text": "Tenant_B_WAN_Zone",
+            "value": "Tenant_B_WAN_Zone"
+          },
+          {
+            "selected": true,
+            "text": "default",
+            "value": "default"
+          }
+        ],
+        "query": "SHOW TAG VALUES FROM \"openconfig_bgp\" WITH KEY=\"name\"",
+        "refresh": 0,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -1739,5 +2247,5 @@
   "timezone": "",
   "title": "BGP",
   "uid": "WF7oE-aGz",
-  "version": 3
+  "version": 5
 }

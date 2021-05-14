@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1610896607190,
+  "id": 5,
+  "iteration": 1621015307520,
   "links": [],
   "panels": [
     {
@@ -35,13 +35,13 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 24,
+        "h": 10,
+        "w": 10,
         "x": 0,
         "y": 0
       },
       "hiddenSeries": false,
-      "id": 3,
+      "id": 9,
       "legend": {
         "avg": false,
         "current": false,
@@ -67,7 +67,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "admin_status",
+          "alias": "out_unicast_pps all int",
           "groupBy": [
             {
               "params": [
@@ -77,52 +77,36 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "snmp_interfaces",
+          "measurement": "ifcounters",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT derivative(sum(\"out_unicast_pkts\"), 1s) AS \"out_unicast_pps\" FROM \"ifcounters\" WHERE (\"device\" =~ /^$dev$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "ifAdminStatus"
+                  "value"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
                 "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=~",
-              "value": "/^$hostname$/"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/^$Int$/"
-            }
-          ]
+          "tags": []
         },
         {
-          "alias": "op_status",
+          "alias": "in_unicast_pps all int",
           "groupBy": [
             {
               "params": [
@@ -132,56 +116,79 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "snmp_interfaces",
+          "measurement": "ifcounters",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT derivative(sum(\"in_unicast_pkts\"), 1s) AS \"in_unicast_pps\" FROM \"ifcounters\" WHERE (\"device\" =~ /^$dev$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "ifOperStatus"
+                  "value"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
                 "type": "mean"
-              },
-              {
-                "params": [
-                  "op_status"
-                ],
-                "type": "alias"
               }
             ]
           ],
-          "tags": [
+          "tags": []
+        },
+        {
+          "alias": "total_unicast_pps all int",
+          "groupBy": [
             {
-              "key": "hostname",
-              "operator": "=~",
-              "value": "/^$hostname$/"
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
             },
             {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/^$Int$/"
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
-          ]
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(sum(\"in_unicast_pkts\"), 1s)  + derivative(sum(\"out_unicast_pkts\"), 1s) AS total_unicast_pps FROM \"ifcounters\" WHERE (\"device\" =~ /^$dev$/) AND $timeFilter GROUP BY time($__interval) fill(null) ",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Interface_status - Device ($hostname) - IfName ($Int)",
+      "title": "pps - device $dev ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -197,7 +204,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:11817",
+          "format": "pps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -205,7 +213,8 @@
           "show": true
         },
         {
-          "format": "short",
+          "$$hashKey": "object:11818",
+          "format": "pps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -234,10 +243,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 12,
-        "w": 24,
+        "h": 8,
+        "w": 23,
         "x": 0,
-        "y": 8
+        "y": 10
       },
       "hiddenSeries": false,
       "id": 2,
@@ -266,7 +275,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_ifName",
+          "alias": "in_bps",
           "groupBy": [
             {
               "params": [
@@ -276,27 +285,23 @@
             },
             {
               "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "snmp_interfaces",
+          "measurement": "ifcounters",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "ifAdminStatus"
+                  "in_octets"
                 ],
                 "type": "field"
               },
@@ -306,7 +311,19 @@
               },
               {
                 "params": [
-                  "admin_status"
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "*8"
+                ],
+                "type": "math"
+              },
+              {
+                "params": [
+                  "in_bps"
                 ],
                 "type": "alias"
               }
@@ -314,9 +331,84 @@
           ],
           "tags": [
             {
-              "key": "hostname",
+              "key": "device",
               "operator": "=~",
-              "value": "/^$hostname$/"
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$int$/"
+            }
+          ]
+        },
+        {
+          "alias": "out_bps",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "out_octets"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "*8"
+                ],
+                "type": "math"
+              },
+              {
+                "params": [
+                  "out_bps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$int$/"
             }
           ]
         }
@@ -325,7 +417,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Interfaces_admin_status - Device ($hostname)",
+      "title": "bps - device $dev - int $int",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -341,8 +433,8 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:130",
-          "format": "short",
+          "$$hashKey": "object:315",
+          "format": "bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -350,8 +442,8 @@
           "show": true
         },
         {
-          "$$hashKey": "object:131",
-          "format": "short",
+          "$$hashKey": "object:316",
+          "format": "bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -380,10 +472,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 12,
-        "w": 24,
+        "h": 8,
+        "w": 23,
         "x": 0,
-        "y": 20
+        "y": 18
       },
       "hiddenSeries": false,
       "id": 4,
@@ -412,7 +504,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_ifName",
+          "alias": "in_unicast_pps",
           "groupBy": [
             {
               "params": [
@@ -422,27 +514,23 @@
             },
             {
               "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "snmp_interfaces",
+          "measurement": "ifcounters",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "B",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "ifOperStatus"
+                  "in_unicast_pkts"
                 ],
                 "type": "field"
               },
@@ -452,7 +540,13 @@
               },
               {
                 "params": [
-                  "op_status"
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "in_unicast_pps"
                 ],
                 "type": "alias"
               }
@@ -460,9 +554,78 @@
           ],
           "tags": [
             {
-              "key": "hostname",
+              "key": "device",
               "operator": "=~",
-              "value": "/^$hostname$/"
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$int$/"
+            }
+          ]
+        },
+        {
+          "alias": "out_unicast_pps",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "out_unicast_pkts"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "out_unicast_pps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$int$/"
             }
           ]
         }
@@ -471,7 +634,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Interfaces_op_status - Device ($hostname)",
+      "title": "unicast pps - device $dev - int $int",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -487,7 +650,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:315",
+          "format": "pps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -495,7 +659,8 @@
           "show": true
         },
         {
-          "format": "short",
+          "$$hashKey": "object:316",
+          "format": "pps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -509,209 +674,12 @@
       }
     },
     {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "B",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "C",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "D",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "E",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "F",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "G",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                1
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "H",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "1m",
-        "frequency": "10s",
-        "handler": 1,
-        "message": "",
-        "name": "Interfaces_status_between_devices",
-        "noDataState": "no_data",
-        "notifications": []
-      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "description": "hardcoded queries",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -721,20 +689,484 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 12,
-        "w": 24,
+        "h": 9,
+        "w": 23,
         "x": 0,
-        "y": 32
+        "y": 26
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:2886",
+          "alias": "/.*in_bps.*/",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "in_bps $tag_name",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "in_octets"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "*8"
+                ],
+                "type": "math"
+              },
+              {
+                "params": [
+                  "in_bps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            }
+          ]
+        },
+        {
+          "alias": "out_bps $tag_name",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "out_octets"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "*8"
+                ],
+                "type": "math"
+              },
+              {
+                "params": [
+                  "out_bps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "bps - device $dev",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:315",
+          "format": "bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:316",
+          "format": "bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 23,
+        "x": 0,
+        "y": 35
       },
       "hiddenSeries": false,
       "id": 5,
       "legend": {
-        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:3037",
+          "alias": "/.*in_unicast.*/",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "in_unicast_pps $tag_name",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "in_unicast_pkts"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "in_unicast_pps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            }
+          ]
+        },
+        {
+          "alias": "out_unicast_pps $tag_name",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "name"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ifcounters",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT derivative(mean(\"in_octets\"), 1s) FROM \"ifcounters\" WHERE (\"device\" = 'leaf-1' AND \"name\" = 'Ethernet1') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "out_unicast_pkts"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  "out_unicast_pps"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "unicast pps - device $dev",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:315",
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:316",
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "hardcoded query",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 23,
+        "x": 0,
+        "y": 43
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -755,7 +1187,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_hostname - $tag_ifName - AdminStatus",
+          "alias": "$dev",
           "groupBy": [
             {
               "params": [
@@ -765,545 +1197,70 @@
             },
             {
               "params": [
-                "ifName"
+                "device"
               ],
               "type": "tag"
             },
             {
               "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "snmp_interfaces",
+          "measurement": "ifcounters",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT derivative(stddev(\"out_octets\"), 1s)  / 8 FROM \"ifcounters\" WHERE (\"name\" =~ /Ethernet(1|2)/ AND \"device\" =~ /DC1-LEAF.*/) AND $timeFilter GROUP BY time($__interval), \"device\" fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "ifAdminStatus"
+                  "out_octets"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "stddev"
               },
               {
                 "params": [
-                  "admin_status"
+                  "1s"
                 ],
-                "type": "alias"
+                "type": "derivative"
+              },
+              {
+                "params": [
+                  " / 8"
+                ],
+                "type": "math"
               }
             ]
           ],
           "tags": [
             {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-LEAF1A.arista.com"
+              "key": "name",
+              "operator": "=~",
+              "value": "/Ethernet(1|2)/"
             },
             {
               "condition": "AND",
-              "key": "ifName",
+              "key": "device",
               "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName - AdminStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifAdminStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-LEAF1B.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName  - AdminStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifAdminStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-SPINE1.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName  - AdminStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifAdminStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-SPINE2.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName  - OperStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifOperStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-LEAF1A.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName - OperStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "F",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifOperStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "count"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-LEAF1B.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName - OperStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "G",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifOperStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-SPINE1.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
-            }
-          ]
-        },
-        {
-          "alias": "$tag_hostname - $tag_ifName - OperStatus",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "ifName"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "hostname"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "snmp_interfaces",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "H",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "ifOperStatus"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "admin_status"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "hostname",
-              "operator": "=",
-              "value": "DC1-SPINE2.arista.com"
-            },
-            {
-              "condition": "AND",
-              "key": "ifName",
-              "operator": "=~",
-              "value": "/Ethernet(1|2).*/"
+              "value": "/DC1-LEAF.*/"
             }
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 1
-        }
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Interfaces_status_between_devices",
+      "title": "stddev - leaf uplinks - out bps",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1319,7 +1276,7 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:130",
+          "$$hashKey": "object:487",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1328,7 +1285,7 @@
           "show": true
         },
         {
-          "$$hashKey": "object:131",
+          "$$hashKey": "object:488",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1353,18 +1310,18 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "DC1-LEAF1A.arista.com",
-          "value": "DC1-LEAF1A.arista.com"
+          "text": "leaf1",
+          "value": "leaf1"
         },
         "datasource": "influxdb",
-        "definition": "SHOW TAG VALUES FROM \"snmp_interfaces\" WITH KEY=\"hostname\"",
+        "definition": "SHOW TAG VALUES FROM \"ifcounters\" WITH KEY=\"device\"",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "hostname",
+        "name": "dev",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"snmp_interfaces\" WITH KEY=\"hostname\"",
+        "query": "SHOW TAG VALUES FROM \"ifcounters\" WITH KEY=\"device\"",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1379,20 +1336,20 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "Ethernet2",
-          "value": "Ethernet2"
+          "text": "Ethernet1",
+          "value": "Ethernet1"
         },
         "datasource": "influxdb",
-        "definition": "SHOW TAG VALUES FROM \"snmp_interfaces\" WITH KEY=\"ifName\"",
+        "definition": "SHOW TAG VALUES FROM \"ifcounters\" WITH KEY=\"name\" WHERE \"device\"=~ /^$dev$/",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "Int",
+        "name": "int",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"snmp_interfaces\" WITH KEY=\"ifName\"",
+        "query": "SHOW TAG VALUES FROM \"ifcounters\" WITH KEY=\"name\" WHERE \"device\"=~ /^$dev$/",
         "refresh": 1,
-        "regex": "/.*Ethernet./",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
@@ -1421,7 +1378,7 @@
     ]
   },
   "timezone": "",
-  "title": "Interfaces_status",
-  "uid": "VR1BiX-Gk",
-  "version": 18
+  "title": "interfaces_counters",
+  "uid": "eoSFZBaGz",
+  "version": 4
 }

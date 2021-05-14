@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
-  "iteration": 1610814170265,
+  "id": 4,
+  "iteration": 1621015423503,
   "links": [],
   "panels": [
     {
@@ -132,8 +132,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "DC1-LEAF1A",
-          "value": "DC1-LEAF1A"
+          "text": "DC1-LEAF1A.arista.com",
+          "value": "DC1-LEAF1A.arista.com"
         },
         "datasource": "influxdb",
         "definition": "SHOW TAG VALUES FROM \"snmp_snmp\" WITH KEY=\"hostname\"",
@@ -176,5 +176,5 @@
   "timezone": "",
   "title": "Sysuptime",
   "uid": "DsLWSu-Mz",
-  "version": 2
+  "version": 1
 }

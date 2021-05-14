@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 2,
-  "iteration": 1611910866585,
+  "iteration": 1621015408499,
   "links": [],
   "panels": [
     {
@@ -297,8 +297,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "cmp308",
-          "value": "cmp308"
+          "text": "leaf1",
+          "value": "leaf1"
         },
         "datasource": "influxdb",
         "definition": "SHOW TAG VALUES FROM \"cpu\" WITH KEY=\"device\"",
@@ -341,5 +341,5 @@
   "timezone": "",
   "title": "CPU",
   "uid": "WW9WRL-Mk",
-  "version": 2
+  "version": 1
 }
