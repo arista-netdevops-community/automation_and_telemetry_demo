@@ -576,7 +576,7 @@ influx
 ```
 List databases
 ```
-SHOW DATABASE
+SHOW DATABASES
 ```
 Select a database
 ```
@@ -590,26 +590,26 @@ Query ifcounters measurement
 ```
 SHOW TAG KEYS FROM "ifcounters"
 SHOW TAG VALUES FROM "ifcounters" with KEY = "device"
-SHOW TAG VALUES FROM "ifcounters" with KEY = "name" WHERE ("device" = 'ta373')
-SELECT * FROM "ifcounters" WHERE "device" = 'ta373'  ORDER BY DESC LIMIT 3
-SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE "device" = 'ta373' ORDER BY DESC LIMIT 3
-SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE ("device" = 'ta373' AND "name"='Ethernet16' AND time >= now() - 120s)
-SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE ("device" = 'ta373' AND "name"=~/Ethernet.*/ AND time >= now() - 120s) GROUP BY "name"
-SELECT mean("in_octets")*8 FROM "ifcounters" WHERE ("device" = 'ta373' AND "name" = 'Ethernet24' AND time >= now() - 10m)
-SELECT mean("in_octets")*8 FROM "ifcounters" WHERE ("device" = 'ta373' AND "name" = 'Ethernet24' AND time >= now() - 10m) GROUP BY time(1m)
-SELECT derivative(mean("in_octets"), 1s) *8 FROM "ifcounters" WHERE ("device" = 'ta373' AND "name" = 'Ethernet24' AND time >= now() - 10m) GROUP BY time(1m)
-SELECT derivative(mean("in_unicast_pkts"), 1s) FROM "ifcounters" WHERE ("device" = 'ta373' AND "name" = 'Ethernet4') AND (time >= now() - 10m)  GROUP BY time(1m)
-SELECT stddev("in_octets") FROM "ifcounters" WHERE ("device" = 'ta373' AND ("name" = 'Ethernet1' OR "name" = 'Ethernet2') AND (time >= now() - 10m)) GROUP BY time(1m)
-SELECT derivative(stddev("out_octets"), 1s)  / 8 FROM "ifcounters" WHERE ("device" =~ /ta.*/ AND "name" =~ /Ethernet[1|2]/ AND (time >= now() - 10m)) GROUP BY time(1m), "device"
+SHOW TAG VALUES FROM "ifcounters" with KEY = "name" WHERE ("device" = 'leaf1')
+SELECT * FROM "ifcounters" WHERE "device" = 'leaf1'  ORDER BY DESC LIMIT 3
+SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE "device" = 'leaf1' ORDER BY DESC LIMIT 3
+SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name"='Ethernet2' AND time >= now() - 120s)
+SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name"=~/Ethernet.*/ AND time >= now() - 120s) GROUP BY "name"
+SELECT mean("in_octets")*8 FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name" = 'Ethernet2' AND time >= now() - 10m)
+SELECT mean("in_octets")*8 FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name" = 'Ethernet2' AND time >= now() - 10m) GROUP BY time(1m)
+SELECT derivative(mean("in_octets"), 1s) *8 FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name" = 'Ethernet2' AND time >= now() - 10m) GROUP BY time(1m)
+SELECT derivative(mean("in_unicast_pkts"), 1s) FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name" = 'Ethernet2') AND (time >= now() - 10m)  GROUP BY time(1m)
+SELECT stddev("in_octets") FROM "ifcounters" WHERE ("device" = 'leaf1' AND ("name" = 'Ethernet1' OR "name" = 'Ethernet2') AND (time >= now() - 10m)) GROUP BY time(1m)
+SELECT derivative(stddev("out_octets"), 1s)  / 8 FROM "ifcounters" WHERE ("device" =~ /lea.*/ AND "name" =~ /Ethernet[1|2]/ AND (time >= now() - 10m)) GROUP BY time(1m), "device"
 ```
 Query openconfig_bgp measurement
 ```
 SHOW TAG KEYS FROM "openconfig_bgp"
 SHOW TAG VALUES FROM "openconfig_bgp" WITH KEY = "device"
-SHOW TAG VALUES FROM "openconfig_bgp" WITH KEY = "neighbor_address" WHERE "device"='ta366'
-SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='ta366' AND "neighbor_address" = '132.0.0.2')
-SELECT "device", "neighbor_address", LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" WHERE ("device"='ta366' AND "neighbor_address" = '132.0.0.2')
-SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='ta366') GROUP BY neighbor_address
+SHOW TAG VALUES FROM "openconfig_bgp" WITH KEY = "neighbor_address" WHERE "device"='leaf1'
+SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "neighbor_address" = '10.255.254.1')
+SELECT "device", "neighbor_address", LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "neighbor_address" = '10.255.254.1')
+SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1') GROUP BY neighbor_address
 SELECT LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" GROUP BY "device", "neighbor_address"
 ```
 ```
