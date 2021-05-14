@@ -518,7 +518,7 @@ We already tested gNMI.
 Let's test SNMP:
 ```
 snmpwalk --version
-snmpwalk -v 2c -c public 172.28.135.38 .1.3.6.1.2.1.1.3.0
+snmpwalk -v 2c -c public 10.73.1.107 .1.3.6.1.2.1.1.3.0
 ```
 
 ### Update the required input for the TIG stack
