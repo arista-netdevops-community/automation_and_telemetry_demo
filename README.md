@@ -359,7 +359,7 @@ cd gnmi/
 Lets use the following gNMI RPC: Capabilities, Get, Set, Subscribe.
 ### gNMI Capabilities RPC
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure capabilities
 ```
 
 ### gNMI Get RPC
@@ -367,8 +367,8 @@ gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities
 Retrieve a snapshot for a path
 
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
-gnmic -a 172.28.131.231:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet3]/config/description"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet2]/config/description"
 ```
 ### gNMI Set RPC
 
@@ -381,19 +381,19 @@ The SetRequest message uses the following fields:
 
 
 ```
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path "/interfaces/interface[name=Ethernet1]/config/description"
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update-path "/interfaces/interface[name=Ethernet1]/config/description" --update-value "gnmi-example"
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path "/interfaces/interface[name=Ethernet1]/config/description"
+gnmic -a 10.73.1.107:6030 --insecure -u arista -p arista get --path "/interfaces/interface[name=Ethernet1]/config/description"
+gnmic -a 10.73.1.107:6030 --insecure -u arista -p arista set --update-path "/interfaces/interface[name=Ethernet1]/config/description" --update-value "gnmi-example"
+gnmic -a 10.73.1.107:6030 --insecure -u arista -p arista get --path "/interfaces/interface[name=Ethernet1]/config/description"
 sh run int et1
 ```
 ```
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --update  "/interfaces/interface[name=Ethernet3]/config/enabled:::bool:::false"
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
+gnmic -a 10.73.1.107:6030 --insecure -u arista -p arista set --update  "/interfaces/interface[name=Ethernet3]/config/enabled:::bool:::false"
+gnmic -a 10.73.1.107:6030 --insecure -u arista -p arista get --path  "/interfaces/interface[name=Ethernet3]/config/enabled"
 sh run int et3
 ```
 ### gNMI Set RPC + PyangBind output
 ```
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
+gnmic -a 10.73.1.117:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
 ```
 sh run sec bgp
@@ -402,8 +402,8 @@ sh run sec bgp
 more test.json
 ```
 ```
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista set --replace-path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp' --replace-file test.json
-gnmic -a 172.28.131.231:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
+gnmic -a 10.73.1.117:6030 --insecure -u arista -p arista set --replace-path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp' --replace-file test.json
+gnmic -a 10.73.1.117:6030 --insecure -u arista -p arista get --path '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp'
 ```
 ```
 sh run sec bgp
@@ -413,15 +413,16 @@ sh run sec bgp
 Request to the target to stream values for an OpenConfig path
 
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=10.255.254.5]/state'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
 ```
 ### gNMI Subscribe RPC to EOS native paths
 
 Request to the target to stream values for an EOS native path
 
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
 
 To stream the ISIS LSDB:
@@ -445,13 +446,13 @@ more redirect_output.txt
 
 Get an EOS show command via gNMI
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure get --path "cli:/show version"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path "cli:/show version"
 ```
 The above RPC works if the device has this [YANG file](https://github.com/aristanetworks/yang/blob/master/EOS-4.24.2F/experimental/eos/models/arista-cli.yang)
 
 You can check this using the Capabilities RPC:
 ```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure capabilities | grep arista-cli
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure capabilities | grep arista-cli
 ```
 For more examples about EOS commands and gNMI you can refer to this [gist](https://gist.github.com/sulrich/81a2e2aec1d70d7a62f21a59299e640b)
 
