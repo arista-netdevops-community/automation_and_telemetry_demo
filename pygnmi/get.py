@@ -1,7 +1,7 @@
 from pygnmi.client import gNMIclient, telemetryParser 
 import json 
 
-host = ('172.28.131.231', '6030')
+host = ('10.73.1.105', '6030')
 
 paths=['interfaces/interface[name=Ethernet1]/state/counters', 'network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor/state']
 

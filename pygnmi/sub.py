@@ -17,7 +17,7 @@ subscribe = {
             'encoding': 'json'
         }
 
-host = ('172.28.131.231', '6030')
+host = ('10.73.1.105', '6030')
 
 with gNMIclient(target=host, username='arista', password='arista', insecure=True) as gc:
     telemetry_stream = gc.subscribe(subscribe=subscribe)

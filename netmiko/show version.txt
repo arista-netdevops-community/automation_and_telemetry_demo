@@ -1,13 +1,13 @@
-Arista DCS-7050SX-64-F
-Hardware version:    02.21
-Serial number:       JPE15341770
-System MAC address:  001c.73e2.f783
+vEOS
+Hardware version:    
+Serial number:       
+System MAC address:  5014.000d.6f23
 
-Software image version: 4.23.2F
+Software image version: 4.24.0F
 Architecture:           i686
-Internal build version: 4.23.2F-15405360.4232F
-Internal build ID:      85bd3770-9843-4dbb-b95b-cd95eb743c5b
+Internal build version: 4.24.0F-16270098.4240F
+Internal build ID:      da8d6269-c25f-4a12-930b-c3c42c12c38a
 
-Uptime:                 3 weeks, 0 days, 18 hours and 47 minutes
-Total memory:           3990936 kB
-Free memory:            2175172 kB
+Uptime:                 6 weeks, 4 days, 0 hours and 54 minutes
+Total memory:           4008604 kB
+Free memory:            2722132 kB

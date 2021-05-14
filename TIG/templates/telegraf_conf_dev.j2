@@ -61,7 +61,7 @@
 [[inputs.snmp]]
   agents =  ["{{ telegraf['devices'][device]['ip'] }}:{{ telegraf['snmp']['port'] }}"]
   name_prefix = "snmp_"
-  interval = "5000ms"
+  interval = "60000ms"
   version = 2
   community = "public"
 
