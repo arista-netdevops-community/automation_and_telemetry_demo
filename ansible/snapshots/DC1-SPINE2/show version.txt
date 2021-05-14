@@ -1,0 +1,13 @@
+vEOS
+Hardware version:    
+Serial number:       
+System MAC address:  5014.0034.236a
+
+Software image version: 4.24.0F
+Architecture:           i686
+Internal build version: 4.24.0F-16270098.4240F
+Internal build ID:      da8d6269-c25f-4a12-930b-c3c42c12c38a
+
+Uptime:                 5 weeks, 0 days, 5 hours and 36 minutes
+Total memory:           4008604 kB
+Free memory:            2960620 kB

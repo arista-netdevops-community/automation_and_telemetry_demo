@@ -3,17 +3,15 @@ all:
   children:
     POC:
       hosts:
-        ta366:
-          ansible_host: 172.28.135.38
-        up522:
-          ansible_host: 172.28.132.154
-        ta368: 
-          ansible_host: 172.28.128.69
-        smv462: 
-          ansible_host: 172.28.134.246
-        ta373: 
-          ansible_host: 172.28.134.80
-        cmp308: 
-          ansible_host: 172.28.135.145
-        ta367: 
-          ansible_host: 172.28.135.39
+        DC1-SPINE1:
+          ansible_host: 10.73.1.101
+        DC1-SPINE2:
+          ansible_host: 10.73.1.102
+        DC1-LEAF1A: 
+          ansible_host: 10.73.1.105
+        DC1-LEAF1B: 
+          ansible_host: 10.73.1.106
+        DC1-LEAF2A: 
+          ansible_host: 10.73.1.107
+        DC1-LEAF2B: 
+          ansible_host: 10.73.1.108

@@ -1,7 +1,0 @@
-ethernet_interfaces:
-  Ethernet2/1:
-    peer: ta368
-    peer_interface: Ethernet2
-  Ethernet3/1:
-    peer: ta373
-    peer_interface: Ethernet2
