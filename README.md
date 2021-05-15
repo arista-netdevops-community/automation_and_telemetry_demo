@@ -62,13 +62,7 @@ Description:    Ubuntu 18.04.1 LTS
 Release:        18.04
 Codename:       bionic
 ```
-Use the name server IP address 8.8.8.8 so you can resolve domain names
-```
-sudo vi /etc/netplan/50-cloud-init.yaml
-sudo netplan apply
-ping www.google.com
-```
-Now you can run these commands to update the VM and install tools
+Run these commands to update the VM and install tools
 ```
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -84,33 +78,16 @@ pip3 list
 $ python3 -V
 Python 3.6.9
 ```
-
-If `ansible --version` or ` pyang --version` doesnt work, check the PATH environment variable:
-```
-echo $PATH
-```
-Try
-```
-/home/arista/.local/bin/ansible --version
-```
-Then update accordingly the PATH environment variable:
-```
-export PATH="$PATH:/home/arista/.local/bin"
-echo $PATH
-```
 ```
 ansible --version
+pyang --version
 ```
 
 Then install also:
 - docker (https://docs.docker.com/engine/install/ubuntu/)
 - docker-compose (https://docs.docker.com/compose/install/)
 - gnmic (https://gnmic.kmrd.dev./#installation)
-   - if gnmic installation fails:
-   ```
-   wget https://github.com/karimra/gnmic/raw/master/install.sh
-   sudo bash install.sh
-   ```
+
 ## Clone this repository
 
 Then clone this repository
