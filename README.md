@@ -73,6 +73,7 @@ Now you can run these commands to update the VM and install tools
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install tree snmp python3-pip build-essential libssl-dev libffi-dev python3-dev -y
+sudo apt install jq
 pip3 install napalm netmiko jsonrpclib-pelix pyang pyangbind ansible==2.9.15 influxdb pygnmi
 ```
 Check
@@ -377,9 +378,17 @@ gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure capabilities
 Retrieve a snapshot for a path
 
 ```
-gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path "/interfaces/interface[name=Ethernet2]/config/description"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  "/interfaces/interface[name=Ethernet1]/config/enabled"
 ```
+
+```
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  "/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  '/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp[afi-safi-name=IPV4_UNICAST]"
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path  "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp/neighbors/neighbor[neighbor-address=172.31.255.8]/afi-safis/afi-safi"
+```
+
 ### gNMI Set RPC
 
 The Set RPC is used to modify states.
@@ -423,9 +432,14 @@ sh run sec bgp
 Request to the target to stream values for an OpenConfig path
 
 ```
-gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
-gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=10.255.254.5]/state'
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/interfaces/interface[name=Ethernet1]/state/counters'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=::133:0:0:2]/state'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance[name=default]/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=172.31.255.8]/state'
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-instances/network-instance[name=Tenant_B_WAN_Zone]/protocols/protocol[identifier=BGP][name=BGP]/bgp/neighbors/neighbor[neighbor-address=10.255.254.5]/state'
+```
+```
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --stream-mode "sample" --sample-interval "5s" --path '/network-instances/network-instance[name=default]/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=172.31.255.8]/state'
 ```
 ### gNMI Subscribe RPC to EOS native paths
 
@@ -457,6 +471,9 @@ more redirect_output.txt
 Get an EOS show command via gNMI
 ```
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure get --path "cli:/show version"
+```
+```
+gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure  get --path "cli:/show ip route summary" | jq '.[0].updates[0].values."show ip route summary".totalRoutes'
 ```
 The above RPC works if the device has this [YANG file](https://github.com/aristanetworks/yang/blob/master/EOS-4.24.2F/experimental/eos/models/arista-cli.yang)
 
