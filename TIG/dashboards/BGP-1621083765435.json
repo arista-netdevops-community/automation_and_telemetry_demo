@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1621015349821,
+  "iteration": 1621082155976,
   "links": [],
   "panels": [
     {
@@ -345,7 +345,7 @@
         "y": 8
       },
       "hiddenSeries": false,
-      "id": 17,
+      "id": 18,
       "legend": {
         "avg": false,
         "current": false,
@@ -437,6 +437,211 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "$dev  - BGP EVPN prefixes in VRF $VRF",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:4474",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:4475",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 17,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$dev - sent - $tag_neighbor_address",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "neighbor_address"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "openconfig_bgp",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"neighbors/neighbor/state/messages/sent/UPDATE\") FROM \"openconfig_bgp\" WHERE (\"device\" =~ /^$dev$/ AND \"name\" =~ /^$VRF$/) AND $timeFilter GROUP BY time($__interval), \"neighbor_address\" fill(none)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "neighbors/neighbor/state/messages/sent/UPDATE"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$VRF$/"
+            }
+          ]
+        },
+        {
+          "alias": "$dev - received - $tag_neighbor_address",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "neighbor_address"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "openconfig_bgp",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"neighbors/neighbor/state/messages/sent/UPDATE\") FROM \"openconfig_bgp\" WHERE (\"device\" =~ /^$dev$/ AND \"name\" =~ /^$VRF$/) AND $timeFilter GROUP BY time($__interval), \"neighbor_address\" fill(none)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "neighbors/neighbor/state/messages/received/UPDATE"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=~",
+              "value": "/^$dev$/"
+            },
+            {
+              "condition": "AND",
+              "key": "name",
+              "operator": "=~",
+              "value": "/^$VRF$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "$dev  - BGP messages in VRF $VRF",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2247,5 +2452,5 @@
   "timezone": "",
   "title": "BGP",
   "uid": "WF7oE-aGz",
-  "version": 5
+  "version": 2
 }
