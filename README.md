@@ -335,6 +335,7 @@ cd gnmi/
 ```
 
 Lets use the following gNMI RPC: Capabilities, Get, Set, Subscribe.
+
 ### gNMI Capabilities RPC
 ```
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure capabilities
@@ -416,23 +417,6 @@ Request to the target to stream values for an EOS native path
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path "eos_native:/Sysdb/routing/bgp/export/"
 ```
 
-To stream the ISIS LSDB:
-```
-more gnmic_conf.yml
-```
-```
-gnmic --config gnmic_conf.yml sub --path "eos_native:/Smash/routing/isis/lsdb/"
-```
-```
-more gnmi_output.txt
-```
-Or
-```
-gnmic -a 172.28.135.38:6030 -u arista -p arista --insecure sub --path "eos_native:/Smash/routing/isis/lsdb/2/default/lsp" > redirect_output.txt
-```
-```
-more redirect_output.txt
-```
 ### gNMI and EOS commands
 
 Get an EOS show command via gNMI
