@@ -657,6 +657,9 @@ SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "o
 SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default') GROUP BY time(1m), "neighbor_address", "afi_safi_name" 
 ```
 ```
+SELECT mean("neighbors/neighbor/state/messages/sent/UPDATE") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default' AND time >= now() - 10m) GROUP BY "neighbor_address",time(1m) 
+```
+```
 SELECT COUNT(*) FROM (SELECT LAST("neighbors/neighbor/config/neighbor_address") FROM "openconfig_bgp" GROUP BY "neighbor_address") GROUP BY "device"
 ```
 ```
