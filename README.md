@@ -4,8 +4,6 @@ This repository has Network automation demo and telemetry demo with EOS devices
 - [Set up an automation VM](#set-up-an-automation-vm)
 - [Clone this repository](#clone-this-repository)
 - [Configure EOS devices](#configure-eos-devices)
-  - [Configure all EOS devices for gNMI and SNMP and eAPI](#configure-all-eos-devices-for-gnmi-and-snmp-and-eapi)
-  - [Configure one EOS device for ISIS LSDB streaming](#configure-one-eos-device-for-isis-lsdb-streaming)
 - [Netmiko](#netmiko)
 - [eAPI (EOS API)](#eapi-eos-api)
 - [Ansible](#ansible)
@@ -88,6 +86,13 @@ Then install also:
 - docker-compose (https://docs.docker.com/compose/install/)
 - gnmic (https://gnmic.kmrd.dev./#installation)
 
+Check
+```
+docker version
+docker-compose version
+gnmic version
+``` 
+ 
 ## Clone this repository
 
 Then clone this repository
@@ -99,7 +104,8 @@ cd automation_and_telemetry_workshop
 ```
 
 ## Configure EOS devices
-### Configure all EOS devices for gNMI and SNMP and eAPI
+
+Configure all EOS devices for gNMI and SNMP and eAPI
 ```
 snmp-server community public ro
 snmp-server vrf MGMT
@@ -122,22 +128,6 @@ management api gnmi
 management api http-commands
    protocol http
    no shutdown
-```
-### Configure one EOS device for ISIS LSDB streaming
-```
-management api models
-   provider smash
-      path routing/isis/lsdb
-```
-
-```
-dev(config-router-isis)#sho active  | grep pub
-   database publish
-```
-
-Then restart octa on that swicth
-```
-bash sudo killall Octa
 ```
 
 ## Netmiko
