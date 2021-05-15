@@ -616,8 +616,12 @@ SHOW MEASUREMENTS
 Query ifcounters measurement
 ```
 SHOW TAG KEYS FROM "ifcounters"
+```
+```
 SHOW TAG VALUES FROM "ifcounters" with KEY = "device"
 SHOW TAG VALUES FROM "ifcounters" with KEY = "name" WHERE ("device" = 'leaf1')
+```
+```
 SELECT * FROM "ifcounters" WHERE "device" = 'leaf1'  ORDER BY DESC LIMIT 3
 SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE "device" = 'leaf1' ORDER BY DESC LIMIT 3
 SELECT "in_octets","out_octets", "name" FROM "ifcounters" WHERE ("device" = 'leaf1' AND "name"='Ethernet2' AND time >= now() - 120s)
@@ -642,13 +646,17 @@ SHOW TAG VALUES FROM "openconfig_bgp" WITH KEY = "neighbor_address" WHERE ("devi
 ```
 ```
 SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "neighbor_address" = '10.255.254.1')
-SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "name" = 'default') GROUP BY neighbor_address
-SELECT "device", "neighbor_address", LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "neighbor_address" = '10.255.254.1')
 SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1') GROUP BY neighbor_address
+SELECT LAST("neighbors/neighbor/state/session_state") FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "name" = 'default') GROUP BY neighbor_address
 SELECT LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" WHERE "name" = 'default' GROUP BY "device", "neighbor_address"
+SELECT "device", "neighbor_address", LAST("neighbors/neighbor/state/session_state") AS session_state FROM "openconfig_bgp" WHERE ("device"='leaf1' AND "neighbor_address" = '10.255.254.1')
+```
+```
 SELECT "neighbors/neighbor/afi_safis/afi_safi/state/prefixes/received" FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "neighbor_address"='10.255.254.1' AND "afi_safi_name"='IPV4_UNICAST')  LIMIT 15
 SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "afi_safi_name" = 'IPV4_UNICAST' AND "name" = 'default') GROUP BY time(1m), "neighbor_address"
 SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default') GROUP BY time(1m), "neighbor_address", "afi_safi_name" 
+```
+```
 SELECT COUNT(*) FROM (SELECT LAST("neighbors/neighbor/config/neighbor_address") FROM "openconfig_bgp" GROUP BY "neighbor_address") GROUP BY "device"
 ```
 ```
