@@ -238,9 +238,10 @@ more reports/POC-state.csv
 ```
 
 To run all only some tests, use ansible tags.
-Example:
+Examples:
 ```
 ansible-playbook playbooks/tests.yml --tags lldp
+ansible-playbook playbooks/tests.yml --tags "hardware, ntp, reload_cause, arbgp"
 ```
 
 ## Pyang
