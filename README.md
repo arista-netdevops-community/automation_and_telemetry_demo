@@ -302,11 +302,20 @@ ls *.yin
 ### Generate a tree representation of YANG modules for quick visualization
 
 ```
-pyang -f tree openconfig-interfaces.yang
+pyang openconfig-interfaces.yang -f tree 
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
 pyang openconfig-interfaces.yang -f tree --tree-depth=4
+```
+```
+pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors --tree-depth=4
 pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors/neighbor/config
 pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors/neighbor/state --tree-depth=5
+pyang openconfig-bgp.yang -f tree --tree-path=/bgp/neighbors/neighbor/afi-safis --tree-depth=6
+```
+```
+pyang openconfig-network-instance.yang -f tree --tree-depth=4
+pyang openconfig-network-instance.yang -f tree  --tree-path=/network-instances/network-instance/protocols/protocol/bgp --tree-depth=6
+pyang openconfig-network-instance.yang -f tree  --tree-path=/network-instances/network-instance/protocols/protocol/isis --tree-depth=6
 ```
 
 ## PyangBind
