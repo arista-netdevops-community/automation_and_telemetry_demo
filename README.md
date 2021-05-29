@@ -32,6 +32,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI Subscribe RPC to OpenConfig paths](#gnmi-subscribe-rpc-to-openconfig-paths)
   - [gNMI Subscribe RPC to EOS native paths](#gnmi-subscribe-rpc-to-eos-native-paths)
   - [gNMI and EOS commands](#gnmi-and-eos-commands)
+  - [gNMI configuration file](#gnmi-configuration-file)
   - [Generate the paths from a YANG file](#generate-the-paths-from-a-yang-file)
 - [pyGNMI](#pygnmi)
   - [gNMI Get RPC](#gnmi-get-rpc-1)
@@ -411,25 +412,6 @@ gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --path '/network-in
 gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure sub --stream-mode "sample" --sample-interval "5s" --path '/network-instances/network-instance[name=default]/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=172.31.255.8]/state'
 ```
 
-### gNMI file configuration
-
-```
-ls -la 
-more .gnmic.yml
-```
-then 
-```
-gnmic --config .gnmic.yml subscribe
-``` 
-or 
-```
-gnmic subscribe
-```
-then 
-```
-more gnmi_output.txt
-```
-
 ### gNMI Subscribe RPC to EOS native paths
 
 Request to the target to stream values for an EOS native path
@@ -455,7 +437,24 @@ gnmic -a 10.73.1.107:6030 -u arista -p arista --insecure capabilities | grep ari
 ```
 For more examples about EOS commands and gNMI you can refer to this [gist](https://gist.github.com/sulrich/81a2e2aec1d70d7a62f21a59299e640b)
 
+### gNMI configuration file
 
+```
+ls -la 
+more .gnmic.yml
+```
+then 
+```
+gnmic --config .gnmic.yml subscribe
+``` 
+or 
+```
+gnmic subscribe
+```
+then 
+```
+more gnmi_output.txt
+```
 ### Generate the paths from a YANG file 
 
 ```
