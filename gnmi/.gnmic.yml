@@ -1,0 +1,45 @@
+username: arista
+password: arista
+insecure: true
+log-file: /tmp/gnmic.log
+#address: 
+#  - "10.73.1.105:6030"
+#  - "10.73.1.106:6030"
+port: 6030
+
+targets:
+  10.73.1.105: 
+    subscriptions:
+      - bgp
+    outputs:
+      - output1
+  10.73.1.106: 
+    subscriptions:
+      - bgp
+      - port_stats
+    outputs:
+      - output1
+
+subscriptions:
+  port_stats:
+    paths:
+      - "/interfaces/interface[name=Ethernet1]/state/counters"
+    stream-mode: sample
+    sample-interval: 10s
+  bgp:
+    paths:
+      - "/network-instances/network-instance[name=default]/protocols/protocol/bgp/neighbors/neighbor/state"
+    stream-mode: on-change
+    heartbeat--interval: 10s
+
+outputs:
+  output1:
+    type: file
+    filename: ./gnmi_output.txt
+    event-processors:
+      - TS_processor
+
+processors:
+  TS_processor:
+    event-override-ts:
+      precision: ms
