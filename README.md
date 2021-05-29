@@ -32,6 +32,7 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI Subscribe RPC to OpenConfig paths](#gnmi-subscribe-rpc-to-openconfig-paths)
   - [gNMI Subscribe RPC to EOS native paths](#gnmi-subscribe-rpc-to-eos-native-paths)
   - [gNMI and EOS commands](#gnmi-and-eos-commands)
+  - [Generate the paths from a YANG file](#generate-the-paths-from-a-yang-file)
 - [pyGNMI](#pygnmi)
   - [gNMI Get RPC](#gnmi-get-rpc-1)
   - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
