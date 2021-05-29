@@ -11,7 +11,6 @@ targets:
   10.73.1.105: 
     subscriptions:
       - bgp
-      - port_stats
     outputs:
       - output1
   10.73.1.106: 
@@ -31,15 +30,15 @@ subscriptions:
       - "/network-instances/network-instance[name=default]/protocols/protocol/bgp/neighbors/neighbor[neighbor-address=192.168.255.2]/state/session-state"
     stream-mode: on-change
     heartbeat-interval: 10s
-
 outputs:
   output1:
     type: file
     filename: ./gnmi_output.txt
+    format: event
     event-processors:
-      - TS_processor
+      - ts_processor
 
 processors:
-  TS_processor:
+  ts_processor:
     event-override-ts:
       precision: ms
