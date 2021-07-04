@@ -35,8 +35,12 @@ This repository has Network automation demo and telemetry demo with EOS devices
   - [gNMI configuration file](#gnmi-configuration-file)
   - [Generate the paths from a YANG file](#generate-the-paths-from-a-yang-file)
 - [pyGNMI](#pygnmi)
+  - [gNMI Capabilities RPC](#gnmi-capabilities-rpc-1)
   - [gNMI Get RPC](#gnmi-get-rpc-1)
   - [gNMI Subscribe RPC](#gnmi-subscribe-rpc)
+  - [gNMI Set RPC](#gnmi-set-rpc-1)
+    - [Update](#update)
+    - [Delete](#delete)
 - [TIG stack](#tig-stack)
   - [Telegraf plugins](#telegraf-plugins)
   - [Telegraf and gNMI timestamps](#telegraf-and-gnmi-timestamps)
@@ -93,8 +97,8 @@ Check
 docker version
 docker-compose version
 gnmic version
-``` 
- 
+```
+
 ## Clone this repository
 
 Then clone this repository
@@ -272,7 +276,7 @@ ls *.yin
 ### Generate a tree representation of YANG modules for quick visualization
 
 ```
-pyang openconfig-interfaces.yang -f tree 
+pyang openconfig-interfaces.yang -f tree
 pyang openconfig-interfaces.yang -f tree --tree-path=/interfaces/interface/state
 pyang openconfig-interfaces.yang -f tree --tree-depth=4
 ```
@@ -440,26 +444,26 @@ For more examples about EOS commands and gNMI you can refer to this [gist](https
 ### gNMI configuration file
 
 ```
-ls -la 
+ls -la
 more .gnmic.yml
 ```
-then 
+then
 ```
 gnmic --config .gnmic.yml subscribe
-``` 
-or 
+```
+or
 ```
 gnmic subscribe
 ```
-then 
+then
 ```
 more gnmi_output.txt
 ```
-### Generate the paths from a YANG file 
+### Generate the paths from a YANG file
 
 ```
 cd ../yang_modules/
-gnmic path --file openconfig-bgp.yang 
+gnmic path --file openconfig-bgp.yang
 gnmic path --file openconfig-bgp.yang | wc -l
 gnmic path --file openconfig-bgp.yang --path-type gnmi
 gnmic path --file openconfig-bgp.yang --types
@@ -474,6 +478,10 @@ From the root of this repository, move to the [pygnmi directory](pygnmi)
 ```
 cd pygnmi
 ```
+### gNMI Capabilities RPC
+```
+python3 capabilities.py
+```
 ### gNMI Get RPC
 ```
 python3 get.py
@@ -482,6 +490,16 @@ python3 get.py
 ```
 python3 sub.py
 ```
+### gNMI Set RPC
+#### Update
+```
+python3 update.py
+```
+#### Delete
+```
+python3 delete.py
+```
+
 ## TIG stack
 
 Telegraf is an open source collector written in GO.
@@ -636,10 +654,10 @@ SELECT "device", "neighbor_address", LAST("neighbors/neighbor/state/session_stat
 ```
 SELECT "neighbors/neighbor/afi_safis/afi_safi/state/prefixes/received" FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "neighbor_address"='10.255.254.1' AND "afi_safi_name"='IPV4_UNICAST')  LIMIT 15
 SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "afi_safi_name" = 'IPV4_UNICAST' AND "name" = 'default') GROUP BY time(1m), "neighbor_address"
-SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default') GROUP BY time(1m), "neighbor_address", "afi_safi_name" 
+SELECT mean("neighbors/neighbor/afi_safis/afi_safi/state/prefixes/sent") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default') GROUP BY time(1m), "neighbor_address", "afi_safi_name"
 ```
 ```
-SELECT mean("neighbors/neighbor/state/messages/sent/UPDATE") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default' AND time >= now() - 10m) GROUP BY "neighbor_address",time(1m) 
+SELECT mean("neighbors/neighbor/state/messages/sent/UPDATE") FROM "openconfig_bgp" WHERE ("device" = 'leaf1' AND "name" = 'default' AND time >= now() - 10m) GROUP BY "neighbor_address",time(1m)
 ```
 ```
 SELECT COUNT(*) FROM (SELECT LAST("neighbors/neighbor/config/neighbor_address") FROM "openconfig_bgp" GROUP BY "neighbor_address") GROUP BY "device"
