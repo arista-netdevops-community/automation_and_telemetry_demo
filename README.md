@@ -101,10 +101,9 @@ gnmic version
 
 ## Clone this repository
 
-Then clone this repository
-```
-git clone https://github.com/arista-netdevops-community/automation_and_telemetry_demo.git
-```
+Clone this repository
+
+And then move to the local directory
 ```
 cd automation_and_telemetry_demo
 ```
@@ -130,7 +129,41 @@ management api http-commands
    protocol http
    no shutdown
 ```
-
+and verify
+```
+DC1-LEAF1A#sho management http-server
+SSL Profile:        none
+FIPS Mode:          No
+QoS DSCP:           0
+Log Level:          none
+CSP Frame Ancestor: None
+TLS Protocols:      1.0 1.1 1.2
+   VRF        Server Status      Enabled Services
+---------- --------------------- ----------------
+   MGMT       HTTPS: port 443    http-commands
+```
+```
+DC1-LEAF1A#sho management api gnmi
+Octa:               enabled
+Enabled:            Yes
+Server:             running on port 6030, in MGMT VRF
+SSL Profile:        none
+QoS DSCP:           none
+```
+no need to enable RESTCONF and NETCONF for this demo
+```
+DC1-LEAF1A#sho management api restconf
+Enabled:            No
+Server:             Not yet running
+SSL Profile:        none
+QoS DSCP:           none
+```
+```
+DC1-LEAF1A#sho management api netconf
+Enabled:            No
+Server:             Not yet running
+DC1-LEAF1A#
+```
 ## Netmiko
 
 Netmiko is a python library to simplify SSH connections to network devices.
